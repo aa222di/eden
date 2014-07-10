@@ -17,6 +17,8 @@ $options  = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
 try {
   $pdo = new PDO($dsn, $login, $password, $options);
 }
+
+
 catch(Exception $e) {
   //throw $e; // For debug purpose, shows all connection details
   throw new PDOException('Could not connect to database, hiding connection details.'); // Hide connection details.
@@ -52,7 +54,7 @@ $res = $sth->fetchAll();
 
 
 
-// Create TABLE
+// Create TABLE change
 
 $table = "<table><thead><th>Bild</th><th>Id</th><th>Titel</th><th>År</th><th>Genre</th></thead><tbody>";
 
