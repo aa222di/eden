@@ -1,0 +1,211 @@
+/* IMPORTED STYLES AND FONTS
+------------------------------------------------------------------------------*/
+
+@import url(http://fonts.googleapis.com/css?family=Marko+One);
+@import	url('reset.css');
+
+
+/* FONTS
+------------------------------------------------------------------------------*/
+
+html {
+		font: normal normal 300 17px/1.5em "Arial", sans-serif;	
+		color: #333;
+	
+}
+
+p {
+		
+		line-height: 1.5em;
+		margin-bottom: 10px;
+		text-align: justify;
+}
+
+h1 {
+		font: normal normal 300 3em/1.5em "Marko One", serif;
+		color: black;
+		
+}
+
+h2 {
+		font: normal normal 600 1.5em/1.5em "Arial", sans-serif;
+		
+}
+
+h3 {
+		font: normal normal 300 1.2em/1.5em "Arial", sans-serif;
+		
+}
+
+a {
+		color: 				#333;
+		text-decoration: 	underline;	
+}
+
+a:hover {
+		text-decoration: 	none;	
+}
+
+.center {
+	text-align:center;
+}
+
+ul {
+	list-style: square inside;
+	line-height: 1.5em;
+}
+
+/* IMAGES
+------------------------------------------------------------------------------*/
+img {
+		padding-top: 0.5em;
+		width: 100%;	
+}
+
+figcaption{
+	text-align:center;
+	font-size: 0.75em;
+	font-style: italic;	
+}
+
+
+/* HEADER
+------------------------------------------------------------------------------*/
+header{
+		padding: 40px 0 40px 0;
+}
+
+header>h1 {
+		padding-right:20px;
+		width: 16.67%;	
+}
+
+nav.mainmenu {
+	border-top: 2px solid #888;	
+	border-bottom: 2px solid #888;	
+	
+}
+
+nav.mainmenu>ul>li, nav.mainmenu>ul>li>a  {
+		display: inline-block;	
+}
+
+nav.mainmenu>ul>li>a  {
+		padding:20px;
+		text-decoration: none;
+		font-family: "Arial", sans-serif;
+		
+}
+
+nav.mainmenu>ul>li>a:first-child  {
+		padding-left: 0;
+}
+
+nav.mainmenu>ul>li>a:hover  {
+		color: #999;
+		text-decoration: underline;
+		
+}
+
+nav.mainmenu>ul>li.selected>a {
+		
+		text-decoration: 	underline;	
+}
+
+
+/* FOOTER
+------------------------------------------------------------------------------*/
+
+/*
+
+Sticky Footer by Ryan Fait
+http://ryanfait.com/
+
+*/
+
+html, body {
+	height: 100%;
+}
+div#wrapper {
+	min-height: 100%;
+	height: auto !important;
+	
+	height: 100%;
+	margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */
+}
+footer, .push {
+	height: 100px; /* .push must be the same height as .footer */
+	width: 980px;
+	margin: 0 auto;
+	
+}
+
+footer{
+
+	border-top: 4px double #888;
+	padding-top: 20px;
+
+}
+
+
+/* CUSTOM BUTTONS
+------------------------------------------------------------------------------*/
+
+a.button {
+	padding: 20px;
+	display: inline-block;
+	background-color: #333;	
+	width: 100%;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-variant: small-caps;
+}
+
+a.button:hover {
+	background-color: #888;	
+}
+
+/* FORMS
+------------------------------------------------------------------------------*/
+
+
+select.dice {
+    display: block;
+    margin: 20px auto;
+    width: 200px;
+    border: 2px solid #888;	
+    padding: 5px;
+    font-size: 17px;
+}
+
+
+
+/* BORDERS AND PADDING
+------------------------------------------------------------------------------*/
+
+.border {
+	border: 4px double #333;	
+}
+
+.borderbottom {
+	border-bottom: 2px solid #333;	
+}
+
+section.extrapadding {
+	padding-top: 40px;	
+	
+}
+
+/* MISC. CLASSES
+------------------------------------------------------------------------------*/
+
+p.underline {
+	text-decoration: underline;
+	font-weight: 600;
+}
+
+
+
+
+
