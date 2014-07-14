@@ -11,12 +11,12 @@ class CDatabase {
   /**
    * Members
    */
-  private $options;                   // Options used when creating the PDO object
-  private $db   = null;               // The PDO object
-  private $stmt = null;               // The latest statement used to execute a query
-  private static $numQueries = 0;     // Count all queries made
-  private static $queries = array();  // Save all queries for debugging purpose
-  private static $params = array();   // Save all parameters for debugging purpose
+  protected $options;                   // Options used when creating the PDO object
+  protected $db   = null;               // The PDO object
+  protected $stmt = null;               // The latest statement used to execute a query
+  protected static $numQueries = 0;     // Count all queries made
+  protected static $queries = array();  // Save all queries for debugging purpose
+  protected static $params = array();   // Save all parameters for debugging purpose
  
   
   
