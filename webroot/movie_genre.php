@@ -26,47 +26,55 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
 
 
-// RESTORE
+// Do SELECT from a table to get all active genres
+	$sql = "SELECT DISTINCT G.name
+			FROM Genre AS G
+			INNER JOIN Movie2Genre AS M2G
+			ON G.id = M2G.idGenre;";
 
-// Restore the database to its original settings
-$sql      = 'movie.sql';
-$mysql    = '/Applications/MAMP/Library/bin/mysql';
-$host     = 'localhost';
-$login    = 'root';
-$password = 'root';
-$output = null;
+	$sth = $pdo->prepare($sql);
+	$sth->execute();
+	$res = $sth->fetchAll();
+	
+	
+	$categories = "<ul class='horizontal'>";
+	foreach($res as $key=>$val) {
+		$categories .= "<li><a class='smallbutton' href='?genre={$val->name}'>{$val->name}</a></li>";
+		
+	}
+	$categories .= "</ul>";
+
+
  
-if(isset($_POST['restore']) || isset($_GET['restore'])) {
-  $cmd = "$mysql -h{$host} -u{$login} -p{$password} < $sql 2>&1";
-  $res = exec($cmd);
-  $output = "<p>Databasen är återställd via kommandot<br/><code>{$cmd}</code></p><p>{$res}</p>";
-}
-
-/**
- * Function to create links for sorting
- *
- * @param string $column the name of the database column to sort by
- * @return string with links to order by column.
- */
-function orderby($column) {
-  return "<span class='orderby'><a href='?orderby={$column}&order=asc'>&darr;</i></a><a href='?orderby={$column}&order=desc'>&uarr;</a></span>";
-}
-
+ 
 // Get parameters for sorting
-$orderby  = isset($_GET['orderby']) ? strtolower($_GET['orderby']) : 'id';
-$order    = isset($_GET['order'])   ? strtolower($_GET['order'])   : 'asc';
+	$genre = isset($_GET['genre']) ? $_GET['genre']: null;
 
-// Check that incoming data is valid
-in_array($orderby, array('id', 'title', 'year')) or die('Check: Not valid column.');
-in_array($order, array('asc', 'desc')) or die('Check: Not valid sort order.'); 
- 
 // Do SELECT from a table
-$sql = "SELECT * FROM VMovie ORDER BY $orderby $order;";
+	if ($genre) {
+		$sql =  "SELECT M.*,
+				G.name AS genre
+				FROM Movie AS M
+				LEFT OUTER JOIN Movie2Genre AS M2G
+				ON M.id = M2G.idMovie
+				LEFT OUTER JOIN Genre AS G
+				ON M2G.idGenre = G.id
+				WHERE G.name = ?;";
+		$params = array($genre,);
+	} else {
+		$sql = "SELECT * FROM VMovie;";
+		$params = null;
+	}
+	
 $sth = $pdo->prepare($sql);
-$sth->execute(array($orderby, $order));
+$sth->execute($params);
 $res = $sth->fetchAll();
 
-$table = "<table><thead><th>Bild</th><th>Id " . orderby('id') . "</th><th>Titel " . orderby('title') . "</th><th>År " . orderby('year') . "</th><th>Genre</th></thead><tbody>";
+
+
+// Create TABLE
+
+$table = "<table><thead><th>Bild</th><th>Id</th><th>Titel</th><th>År</th><th>Genre</th></thead><tbody>";
 
 foreach($res as $key=>$val) {
 	$table .= "<tr><td><img class='thumbnail' src='{$val->image}' alt='{$val->title}'></td><td>{$val->id}</td><td>{$val->title}</td><td>{$val->year}</td><td>{$val->genre}</td></tr>";
@@ -88,7 +96,7 @@ $eden['main'] = <<<EOD
 
 <div class="grid">
 	<a class="right" href="?restore">Återställ databasen</a>
-	$output
+
 	<h2>MovieDB</h2>
 	
 	
@@ -98,7 +106,7 @@ $eden['main'] = <<<EOD
 		<legend>Sök</legend>
 			<div class="grid-1-2">
 				<label>Välj genre:</label>
-
+					$categories
 				
 			</div>
 			<div class="grid-1-2">
@@ -106,9 +114,9 @@ $eden['main'] = <<<EOD
 			
 				<label for="years">Skapad mellan åren: </label>
 				<p id="years">
-					<input type='text' name='year1' />
+					<input type='number' name='year1' />
 					- 
-					<input type='text' name='year2' />
+					<input type='number' name='year2' />
 				</p>  
 				
 				<input class="right clear" type='submit' name='submit' value='Sök'/>

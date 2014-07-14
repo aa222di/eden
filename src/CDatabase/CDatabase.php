@@ -44,8 +44,8 @@ class CDatabase {
       $this->db = new PDO($this->options['dsn'], $this->options['username'], $this->options['password'], $this->options['driver_options']);
     }
     catch(Exception $e) {
-      //throw $e; // For debug purpose, shows all connection details
-      throw new PDOException('Could not connect to database, hiding connection details.'); // Hide connection details.
+      throw $e; // For debug purpose, shows all connection details
+      //throw new PDOException('Could not connect to database, hiding connection details.'); // Hide connection details.
     }
  
     $this->db->SetAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, $this->options['fetch_style']); 

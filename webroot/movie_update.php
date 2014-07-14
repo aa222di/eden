@@ -7,11 +7,6 @@
 include(__DIR__.'/config.php'); 
 $db = new CDatabase($eden['database']); 
 
-
-
-$sql = "SELECT COUNT(id) AS rows FROM VMovie";
-$res = $db->ExecuteSelectQueryAndFetchAll($sql);
-
 $id = $_GET['id'];
 
 // Select information on the movie 
@@ -34,10 +29,12 @@ $year   = isset($_POST['year'])  ? strip_tags($_POST['year'])  : null;
 $image  = isset($_POST['image']) ? strip_tags($_POST['image']) : null;
 //$genre  = isset($_POST['genre']) ? $_POST['genre'] : array();
 $save   = isset($_POST['save'])  ? true : false;
+$acronym = isset($_SESSION['user']) ? $_SESSION['user']->acronym : null;
+
 
 // Check that incoming parameters are valid
+isset($acronym) or die('Check: You must login to edit.');
 is_numeric($id) or die('Check: Id must be numeric.');
-//is_array($genre) or die('Check: Genre must be array.');
 
 // Check if form was submitted
 $output = null;
@@ -55,7 +52,7 @@ if($save) {
   $output = 'Informationen sparades.';
 }
 
-
+$sqlDebug = $db->Dump();
 // Do it and store it all in variables in the Eden container.
 $eden['title'] = "Uppdatera filmer";
  
@@ -75,6 +72,8 @@ $eden['main'] = <<<EOD
   <output>{$output}</output>
   </fieldset>
 </form>
+<hr>
+$sqlDebug
 
 EOD;
  

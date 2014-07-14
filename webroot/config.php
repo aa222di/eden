@@ -101,6 +101,8 @@ EOD;
     'movie_delete'        => array('text'=>'Ta bort film',         'url'         =>'movie_deleteview.php',	'title' => 'Ta bort filmer'),
     'movie_searchtitle'   => array('text'=>'Sök titel',            'url'         =>'movie_searchtitle.php',	'title' => 'Sök titel'),
     'movie_year'          => array('text'=>'Sök på år',            'url'         =>'movie_year.php',	      'title' => 'Sök på år'),
+    'movie_genre'         => array('text'=>'Sök på genre',         'url'         =>'movie_genre.php',       'title' => 'Sök på genre'),
+    'movie_page'          => array('text'=>'Paginering',           'url'         =>'movie_page.php',        'title' => 'Paginering'),
   ),
   'callback_selected' => function($url) {
     if(basename($_SERVER['SCRIPT_FILENAME']) == $url) {
