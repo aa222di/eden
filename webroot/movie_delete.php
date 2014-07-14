@@ -7,11 +7,6 @@
 include(__DIR__.'/config.php'); 
 $db = new CDatabase($eden['database']); 
 
-
-
-$sql = "SELECT COUNT(id) AS rows FROM VMovie";
-$res = $db->ExecuteSelectQueryAndFetchAll($sql);
-
 $id = $_GET['id'];
 
 // Select information on the movie 
@@ -55,7 +50,7 @@ elseif($reset) {
 	header('Location: movie_deleteview.php');
 }
 
-
+$sqlDebug = $db->Dump();
 // Do it and store it all in variables in the Eden container.
 $eden['title'] = "Ta bort filmer";
  
@@ -74,6 +69,8 @@ $eden['main'] = <<<EOD
   <output>{$output}</output>
   </fieldset>
 </form>
+<hr>
+$sqlDebug
 
 EOD;
  
