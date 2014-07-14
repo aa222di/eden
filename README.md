@@ -1,11 +1,11 @@
-Eden / Anax?
+Eden 
 ==================
 
-(Jag vet inte riktigt vad jag kan lägga till här, vad som är rätt liksom?)
+
  
 A boilerplate for smaller websites or webbapplications using PHP.
  
-Built by Mikael Roos
+Built by Amanda Åberg during the course "Databaser och objektorienterad programmering i PHP" on BTH
  
 License 
 ------------------
@@ -14,8 +14,6 @@ This software is free software and carries a MIT license.
  
  
 ------------------
- .
-..:
- 
-Copyright (c) 2013 Mikael Roos
+
+Copyright (c) 2014 Amanda Åberg
 
