@@ -93,18 +93,21 @@ EOD;
     'redovisning'         => array('text'=>'Redovisning',          'url'         =>'redovisning.php',       'title' => 'Redovisningar för kursmomenten'),
     'kallkod'             => array('text'=>'Källkod',              'url'         =>'source.php',            'title' => 'Se källkoden'),
     'dice'    	          => array('text'=>'Tärningsspel',         'url'         =>'dice.php',    	        'title' => 'Spela tärningsspelet'),
-    'movie'    	          => array('text'=>'MovieDB',              'url'         =>'movie.php',   	        'title' => 'Filmdatabasen'),
-    'movie_showall'    	  => array('text'=>'Visa alla filmer',     'url'         =>'movie_showall.php',   	'title' => 'Visa alla filmer'),
-    'login'    	          => array('text'=>'Logga in',             'url'         =>'login.php',   	        'title' => 'Logga in'),
-    'movie_update'        => array('text'=>'Uppdatera',            'url'         =>'movie_updateview.php',	'title' => 'Uppdatera filmdatabasen'),
-    'movie_create'        => array('text'=>'Lägg till film',       'url'         =>'movie_create.php',	    'title' => 'Lägg till filmer'),
-    'movie_delete'        => array('text'=>'Ta bort film',         'url'         =>'movie_deleteview.php',	'title' => 'Ta bort filmer'),
-    'movie_searchtitle'   => array('text'=>'Sök titel',            'url'         =>'movie_searchtitle.php',	'title' => 'Sök titel'),
-    'movie_year'          => array('text'=>'Sök på år',            'url'         =>'movie_year.php',	      'title' => 'Sök på år'),
-    'movie_genre'         => array('text'=>'Sök på genre',         'url'         =>'movie_genre.php',       'title' => 'Sök på genre'),
-    'movie_page'          => array('text'=>'Paginering',           'url'         =>'movie_page.php',        'title' => 'Paginering'),
+    'movie'    	          => array('text'=>'MovieDB',              'url'         =>'movie.php',   	        'title' => 'Filmdatabasen',
+      'submenu'           => array(
+        'items'           => array(
+                                  'movie_update'        => array('text'=>'Uppdatera',            'url'         =>'movie_updateview.php',	'title' => 'Uppdatera filmdatabasen'),
+                                  'movie_create'        => array('text'=>'Lägg till film',       'url'         =>'movie_create.php',	    'title' => 'Lägg till filmer'),
+                                  'movie_delete'        => array('text'=>'Ta bort film',         'url'         =>'movie_deleteview.php',	'title' => 'Ta bort filmer'),
+                                  'movie_searchtitle'   => array('text'=>'Sök titel',            'url'         =>'movie_searchtitle.php',	'title' => 'Sök titel'),
+                                  'movie_year'          => array('text'=>'Sök på år',            'url'         =>'movie_year.php',	      'title' => 'Sök på år'),
+                                  'movie_genre'         => array('text'=>'Sök på genre',         'url'         =>'movie_genre.php',       'title' => 'Sök på genre'),
+                                  'movie_page'          => array('text'=>'Paginering',           'url'         =>'movie_page.php',        'title' => 'Paginering'),
+                                  'movie_showall'        => array('text'=>'Visa alla filmer',     'url'         =>'movie_showall.php',     'title' => 'Visa alla filmer'),
+                             ))),
+    'login'               => array('text'=>'Logga in',             'url'         =>'login.php',             'title' => 'Användare'),
   ),
-  'callback_selected' => function($url) {
+  'callback' => function($url) {
     if(basename($_SERVER['SCRIPT_FILENAME']) == $url) {
       return true;
     }

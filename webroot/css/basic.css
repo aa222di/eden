@@ -80,10 +80,12 @@ header{
 		padding: 40px 0 40px 0;
 }
 
-header>h1 {
+header> h1 {
 		padding-right:20px;
 		width: 16.67%;	
 }
+
+/* MENU AND SUBMENU */
 
 nav.mainmenu {
 	border-top: 2px solid #888;	
@@ -95,7 +97,7 @@ nav.mainmenu>ul>li, nav.mainmenu>ul>li>a  {
 		display: inline-block;	
 }
 
-nav.mainmenu>ul>li>a  {
+nav.mainmenu>ul>li>a, li > ul >li > a  {
 		padding:20px;
 		text-decoration: none;
 		font-family: "Arial", sans-serif;
@@ -112,9 +114,18 @@ nav.mainmenu>ul>li>a:hover  {
 		
 }
 
-nav.mainmenu>ul>li.selected>a {
+nav.mainmenu>ul> li.selected>a {
 		
 		text-decoration: 	underline;	
+}
+
+li > ul {
+    background: none repeat scroll 0 0 #fff;
+    list-style: none outside none;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    margin-left: -20px;
 }
 
 

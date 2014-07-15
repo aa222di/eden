@@ -1,6 +1,6 @@
 <?php
 /**
- * CDatabaseTable collects methods to display searchresult from a database 
+ * CDatabaseTable collects methods to display searchresult and navigationlinks from a database 
  *
  */
 class CDatabaseTable extends CDatabase {
