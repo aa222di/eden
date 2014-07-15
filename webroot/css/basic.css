@@ -68,7 +68,7 @@ figcaption{
 	font-style: italic;	
 }
 
-img.thumbnail {
+.thumbnail {
 	max-height: 50px;	
 	max-width: 100px;
 }
@@ -93,6 +93,7 @@ nav.mainmenu {
 	
 }
 
+
 nav.mainmenu>ul>li, nav.mainmenu>ul>li>a  {
 		display: inline-block;	
 }
@@ -108,24 +109,26 @@ nav.mainmenu>ul>li>a:first-child  {
 		padding-left: 0;
 }
 
-nav.mainmenu>ul>li>a:hover  {
+nav.mainmenu>ul>li>a:hover, li > ul >li > a:hover  {
 		color: #999;
-		text-decoration: underline;
-		
+		text-decoration: underline;	
 }
 
-nav.mainmenu>ul> li.selected>a {
-		
-		text-decoration: 	underline;	
+nav.mainmenu li:hover ul {
+	visibility: visible;
+}
+.selected>a, .selected-parent>a {
+		font-style: italic;
+		color: red;
 }
 
 li > ul {
     background: none repeat scroll 0 0 #fff;
     list-style: none outside none;
-    padding: 10px;
     position: absolute;
     z-index: 1;
     margin-left: -20px;
+    visibility: hidden;
 }
 
 

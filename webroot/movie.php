@@ -59,7 +59,7 @@ $eden['title'] = "Filmdatabasen";
  
 $eden['main'] = <<<EOD
 
-<div class="grid">
+
 	<a class="right" href="?restore">Återställ databasen</a>
 	<h2>MovieDB</h2>
 
@@ -93,7 +93,7 @@ $eden['main'] = <<<EOD
 	$hitsPerPage
 	$table
 	$pageNav
-</div>
+
 <div class=debug>{$sqlDebug}</div>
 EOD;
  
