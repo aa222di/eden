@@ -13,6 +13,11 @@ $login    = 'root';
 $password = 'root';
 $options  = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
 
+$dsn      = 'mysql:host=blu-ray.student.bth.se;dbname=amab14;';
+$login    = 'amab14';
+$password = 'pkDx9lF+';
+$options  = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
+
 //$pdo = new PDO($dsn, $login, $password, $options);
 try {
   $pdo = new PDO($dsn, $login, $password, $options);
@@ -59,7 +64,7 @@ $res = $sth->fetchAll();
 $table = "<table><thead><th>Bild</th><th>Id</th><th>Titel</th><th>År</th><th>Genre</th></thead><tbody>";
 
 foreach($res as $key=>$val) {
-	$table .= "<tr><td><img class='thumbnail' src='{$val->image}' alt='{$val->title}'></td><td>{$val->id}</td><td>{$val->title}</td><td>{$val->year}</td></tr>";
+	$table .= "<tr><td><img class='thumbnail' src='{$val->image}' alt='{$val->title}'></td><td>{$val->id}</td><td>{$val->title}</td><td>{$val->YEAR}</td></tr>";
 
 
 }

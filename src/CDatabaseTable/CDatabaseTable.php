@@ -176,7 +176,7 @@ private function buildTable($params) {
 	$table = "<table><thead><th>Bild</th><th>Id " . $this->orderby('id') . "</th><th>Titel" . $this->orderby('title') . "</th><th>År" . $this->orderby('year') . "</th><th>Genre</th></thead><tbody>";
 
 	foreach($res as $key=>$val) {
-		$table .= "<tr><td><img class='thumbnail' src='{$val->image}' alt='{$val->title}'></td><td>{$val->id}</td><td>{$val->title}</td><td>{$val->year}</td><td>{$val->genre}</td></tr>";
+		$table .= "<tr><td><img class='thumbnail' src='{$val->image}' alt='{$val->title}'></td><td>{$val->id}</td><td>{$val->title}</td><td>{$val->YEAR}</td><td>{$val->genre}</td></tr>";
 	}
 	$table .= "</tbody></table>";	
 

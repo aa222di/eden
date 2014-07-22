@@ -10,8 +10,9 @@ $db = new CDatabaseTable($eden['database'], $table);
 
 // Restore the database to its original settings
 $sql      = 'movie.sql';
-$mysql    = '/Applications/MAMP/Library/bin/mysql';
+//$mysql    = '/Applications/MAMP/Library/bin/mysql';
 $host     = 'localhost';
+$mysql    = '/usr/local/bin/mysql';
 $output = null;
  
 if(isset($_POST['restore']) || isset($_GET['restore'])) {
@@ -61,6 +62,7 @@ $eden['main'] = <<<EOD
 
 
 	<a class="right" href="?restore">Återställ databasen</a>
+	$output
 	<h2>MovieDB</h2>
 
 	<form method='get' >

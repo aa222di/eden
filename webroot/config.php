@@ -53,6 +53,11 @@ $eden['database']['username'] 		  = 'root';
 $eden['database']['password']	  	  = 'root';
 $eden['database']['driver_options']	=  array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
 
+$eden['database']['edenpress']['dsn']            = 'mysql:host=localhost;dbname=edenpress;';
+$eden['database']['edenpress']['username']       = 'root';
+$eden['database']['edenpress']['password']       = 'root';
+$eden['database']['edenpress']['driver_options'] =  array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
+
  
 /**
  * Site wide settings.
@@ -106,6 +111,7 @@ EOD;
                                   'movie_showall'        => array('text'=>'Visa alla filmer',     'url'         =>'movie_showall.php',     'title' => 'Visa alla filmer'),
                              ))),
     'login'               => array('text'=>'Logga in',             'url'         =>'login.php',             'title' => 'Användare'),
+    'edenpress'           => array('text'=>'Edenpress',            'url'         =>'edenpress_content.php', 'title' => 'Edenpress'),
   ),
   'callback' => function($url) {
     if(basename($_SERVER['SCRIPT_FILENAME']) == $url) {

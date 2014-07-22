@@ -15,7 +15,28 @@ $eden['title'] = "Redovisningar";
 $eden['main'] = <<<EOD
 <div class="grid">
 	<section class="grid-2-3">
-	
+		
+		<h2 id="kmom04">Kmom04</h2>
+	<div class="box">
+		<p>Under detta kursmomentet har det förekommit mycket nytt för mig. Ett par nya funktioner i php så som array_merge och array_merge_recursive. Även mina kunskaper om
+		PDO har utökats. Nu har jag bättre koll på hur man lägger in och söker ut data ur en databas. Däremot så känner jag fortfarande att bitarna med inre och yttre joiner inte riktigt
+		har fallit på plats. Jag arbetade igenom guiden med filmdatabasen vilken var till stor hjälp. Dock var det mycket nya kodsnuttar att hålla reda på så det gick ganska långsamt framåt för mig.
+		När jag skulle kombinera alla sökfunktioner på en och samma sida så var min idé först att skapa en array med default sökvärden som per default skulle visa alla filmer. Sedan byggde jag 
+		en query som sökte ut allt alltid, dvs. både år, titel, paginering osv. När GET och POST var satta så slog jag ihop de nya värderna med defaultarrayen och på så vis söktes filmerna fram.
+		Dock fick jag problem efetr halva lösningen. Det var svårt att lösa sökningen av genres. Min idé var att använda IN men det fungerade inte när söknungen på genre bara var på ett ord. Till slut 
+		tittade jag på Mikaels lösning och såg att han användt sig av WHERE 1 AND vilket var smidigt för då kunde jag bygga upp queryn allt eftersom sökningen blev mer komplex. Det slutade med att
+		jag kopierade Mikeals lösning ganska rakt av.</p>
+		<p>När det sedan var dags att skapa klasser fick jag tänka till lite igen. Jag har försökt få över allt kod utom GET och POST variablerna i min klass CDatabaseTable. Måste säga att det
+		gick förvånadsvärt smidigt. Så länge queryn som ska skapas använder sig av samma variabler som vår filmdatabas så kan man bara skicka med namnet på tabellen som ska sökas och en array med
+		parametrar sedan löser klassen resten och returnerar en grafisk tabell. Jag fick dock skapa en lite mindre snygg lösning för att söka ut alla aktiva genrer för jag kom inte på något sätt
+		att generalisera den sökningen mer. I CUser skapas även inloggningsformuläret i klassen som även sköter kollen om det ska vara ett utloggningsformulär eller inloggning beroende på om användaren 
+		är inloggad eller ej.</p>
+		<P>Det är kul att jobba med klasser, fördelarna är att man injuds till att försöka generaliera och förenkla sin kod, nackdelen är att ibland känner jag att jag i och för sig
+		lyckats flytta över mycket kod till klassen men att koden fortsätter vara ganska specifik just den en viss tabell eller databas. Det är svårt att veta till vilken grad man ska generalisera. Å andra sidan
+		så är det ju lätt att kopiera en klass över till ett annat projekt och ändra de småsaker som inte stämmer i jämförelse med att inte ha koden samlad i klassen.</p>
+	</div>
+	<hr>
+
 		<h2 id="kmom03">Kmom03</h2>
 	<div class="box">
 		<p>Kursmomentet kändes lärorikt och intressant. Det var bra att få koll på lite olika klienter. Dock fick jag inte igång
@@ -141,8 +162,8 @@ $eden['main'] = <<<EOD
 	<ul>
 		<li><a href="#kmom01" title="Kmom01">Kmom01</a></li>
 		<li><a href="#kmom02" title="Kmom02">Kmom02</a></li>
-		<li><a href="#kmom03" title="Kmom02">Kmom03</a></li>
-		<li>Kmom04</li>
+		<li><a href="#kmom03" title="Kmom03">Kmom03</a></li>
+		<li><a href="#kmom04" title="Kmom04">Kmom04</a></li>
 		<li>Kmom05</li>
 		<li>Kmom06</li>
 		<li>Kmom07</li>

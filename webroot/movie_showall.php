@@ -13,13 +13,20 @@ $login    = 'root';
 $password = 'root';
 $options  = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
 
+$dsn      = 'mysql:host=blu-ray.student.bth.se;dbname=amab14;';
+$login    = 'amab14';
+$password = 'pkDx9lF+';
+$options  = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'");
+
+ 
+
 //$pdo = new PDO($dsn, $login, $password, $options);
 try {
   $pdo = new PDO($dsn, $login, $password, $options);
 }
 catch(Exception $e) {
-  //throw $e; // For debug purpose, shows all connection details
-  throw new PDOException('Could not connect to database, hiding connection details.'); // Hide connection details.
+  throw $e; // For debug purpose, shows all connection details
+  //throw new PDOException('Could not connect to database, hiding connection details.'); // Hide connection details.
 }
 // Fetch as object as default
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
@@ -69,7 +76,7 @@ $res = $sth->fetchAll();
 $table = "<table><thead><th>Bild</th><th>Id " . orderby('id') . "</th><th>Titel " . orderby('title') . "</th><th>År " . orderby('year') . "</th><th>Genre</th></thead><tbody>";
 
 foreach($res as $key=>$val) {
-	$table .= "<tr><td><img class='thumbnail' src='{$val->image}' alt='{$val->title}'></td><td>{$val->id}</td><td>{$val->title}</td><td>{$val->year}</td><td>{$val->genre}</td></tr>";
+	$table .= "<tr><td><img class='thumbnail' src='{$val->image}' alt='{$val->title}'></td><td>{$val->id}</td><td>{$val->title}</td><td>{$val->YEAR}</td><td>{$val->genre}</td></tr>";
 
 
 }

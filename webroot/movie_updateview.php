@@ -17,7 +17,7 @@ $res = $db->ExecuteSelectQueryAndFetchAll($sql);
 $table = "<table><thead><th>ID</th><th>Titel</th><th>År</th><th>Bild</th><th>Updatera</th></thead><tbody>";
 
 foreach($res as $key=>$val) {
-	$table .= "<tr><td>{$val->id}</td><td>{$val->title}</td><td>{$val->year}</td><td>{$val->image}</td><td><a href='movie_update.php?id={$val->id}'>edit</a></td></tr>";
+	$table .= "<tr><td>{$val->id}</td><td>{$val->title}</td><td>{$val->YEAR}</td><td>{$val->image}</td><td><a href='movie_update.php?id={$val->id}'>edit</a></td></tr>";
 
 
 }
