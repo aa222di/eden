@@ -9,10 +9,12 @@ $table = 'VMovie';
 $db = new CDatabaseTable($eden['database'], $table); 
 
 // Restore the database to its original settings
-$sql      = 'movie.sql';
+$sql      = 'movie.sql';             
+$mysql    = '/usr/bin/mysql';         
+$host     = 'blu-ray.student.bth.se';
 //$mysql    = '/Applications/MAMP/Library/bin/mysql';
-$host     = 'localhost';
-$mysql    = '/usr/local/bin/mysql';
+//$host     = 'localhost';
+
 $output = null;
  
 if(isset($_POST['restore']) || isset($_GET['restore'])) {

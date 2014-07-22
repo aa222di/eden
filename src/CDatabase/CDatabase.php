@@ -182,6 +182,23 @@ class CDatabase {
 
 
 
+   /**
+    * Reset the database. Works on Unix
+    *
+    * @param string $databaseFile the path to the file with the sql-code
+    * @param string $mysql path to the commando client
+    * @param string $host the host
+    * @return string information about the reset
+    */
+      public function ResetDatabase($databaseFile, $mysql, $host) {
+    $cmd = "$mysql -h{$host} -u{$this->options['username']} -p{$this->options['password']} < $databaseFile 2>&1";
+    $res = exec($cmd);
+    $output = "<p>Databasen är återställd via kommandot<br/><code>{$cmd}</code></p><p>{$res}</p>";
+
+    return $output;
+  }
+
+
   /**
    * Return error code of last unsuccessful statement, see PDO::errorCode().
    *

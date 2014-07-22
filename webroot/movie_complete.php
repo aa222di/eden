@@ -173,11 +173,11 @@ if($title) {
 
 // Select by year
 if($year1) {
-  $where .= ' AND year >= ?';
+  $where .= ' AND YEAR >= ?';
   $params[] = $year1;
 } 
 if($year2) {
-  $where .= ' AND year <= ?';
+  $where .= ' AND YEAR <= ?';
   $params[] = $year2;
 } 
 

@@ -23,7 +23,7 @@ CREATE TABLE Movie
     title VARCHAR(100) NOT NULL,
     director VARCHAR(100),
     length INT DEFAULT NULL, -- Length in minutes
-    year INT NOT NULL DEFAULT 1900,
+    YEAR INT NOT NULL DEFAULT 1900,
     plot TEXT, -- Short intro to the movie
     image VARCHAR(100) DEFAULT NULL, -- Link to an image
     subtext CHAR(3) DEFAULT NULL, -- swe, fin, en, etc

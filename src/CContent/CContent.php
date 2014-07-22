@@ -28,6 +28,37 @@ class CContent extends CDatabase {
 
 	// METHODS
 
+	/**
+	 * createTable initiates the table structure 
+	 *
+	 */
+public function createTable() {
+	$sql = '
+DROP TABLE IF EXISTS ' . $this->table . ';
+CREATE TABLE ' . $this->table . '
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  slug CHAR(80) UNIQUE,
+  url CHAR(80) UNIQUE,
+ 
+  TYPE CHAR(80),
+  title VARCHAR(80),
+  DATA TEXT,
+  FILTER CHAR(80),
+ 
+  published DATETIME,
+  created DATETIME,
+  updated DATETIME,
+  deleted DATETIME
+ 
+) ENGINE INNODB CHARACTER SET utf8;';
+
+$this->ExecuteQuery($sql, array());
+
+ header('Location: edenpress_create.php');
+
+
+}
 
 
 	/**
@@ -42,6 +73,10 @@ public function showAllContent($published = true, $params = array()) {
 	// Get content
 	$res = $this->getContent($published, $params);
 
+	if (!$res) {
+		$html = "<p>Just nu finns det inget innehåll, vill du <a href='?create'>börja skapa innehåll?</a></p>";
+	}
+	else {
 	// Display it
 	$html = "<h2>Innehåll</h2><p>Här visas allt innehåll i Edenpress</p><ul>";
 
@@ -53,6 +88,7 @@ public function showAllContent($published = true, $params = array()) {
 	$html .= "</ul>";
 	$createLink = isset($_SESSION['user']) ? '<p><a href="edenpress_create.php" title="Skapa nytt innehåll">Skapa nytt innehåll</a></p>' : null;
 	$html .= $createLink;
+	}
 
 	return $html;
 
@@ -151,7 +187,7 @@ public function updateContent($id) {
 	$slug   = isset($title)  ? $this->slugify($title)  : null;
 	$url    = isset($slug)   ? $slug : null;
 	$type   = isset($_POST['type'])  ? strip_tags($_POST['type']) : array();
-	$filter = isset($_POST['filter']) ? $_POST['filter'] : array('nl2br',);
+	$filter = isset($_POST['filter']) ? $_POST['filter'] : 'nl2br';
 	$user = isset($_SESSION['user']) ? $_SESSION['user']->name : null;
 
 
@@ -226,18 +262,19 @@ private function getUrlToContent($content) {
 	 * @return array with objects from query
 	 *
 	 */
-private function getContent($published = true, $params) {
+public function getContent($published = true, $params) {
 
 	// Parameters
 	$id = null;
 	$type = null;
+	$url = null;
 	$parameters = array();
 
 	// Build query
 	$sqlOrig = "SELECT *";
 	$onlyPublished = $published ? ", (published <= NOW()) AS available" : null;
 
-	if (isset($params['id'])) {
+		if (isset($params['id'])) {
 		$id = " AND id = ?";
 		$parameters[] = $params['id'];
 	}
@@ -245,7 +282,11 @@ private function getContent($published = true, $params) {
 		$type = " AND TYPE = ?";
 		$parameters[] = $params['type'];
 	}
-	$where = " WHERE 1" . $id . $type . ";";
+		if (isset($params['url'])) {
+		$url = " AND url = ?";
+		$parameters[] = $params['url'];
+	}
+	$where = " WHERE 1" . $id . $type . $url . ";";
 	$sql = $sqlOrig . $onlyPublished . " FROM " . $this->table . $where;
 
 	// Do SELECT from a table
@@ -315,7 +356,7 @@ EOD;
  * @returns str the formatted slug. 
  */
 private function slugify($str) {
-  $str = mb_strtolower(trim($str));
+  $str = mb_strtolower(trim($str), 'UTF-8');
   $str = str_replace(array('å','ä','ö'), array('a','a','o'), $str);
   $str = preg_replace('/[^a-z0-9-]/', '-', $str);
   $str = trim(preg_replace('/-+/', '-', $str), '-');

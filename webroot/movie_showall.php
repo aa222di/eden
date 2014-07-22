@@ -42,6 +42,12 @@ $host     = 'localhost';
 $login    = 'root';
 $password = 'root';
 $output = null;
+
+$sql      = 'movie.sql';             
+$mysql    = '/usr/bin/mysql';         
+$host     = 'blu-ray.student.bth.se';
+$login    = 'amab14';                   
+$password = 'pkDx9lF+'; 
  
 if(isset($_POST['restore']) || isset($_GET['restore'])) {
   $cmd = "$mysql -h{$host} -u{$login} -p{$password} < $sql 2>&1";
