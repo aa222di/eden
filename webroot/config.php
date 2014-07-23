@@ -108,7 +108,7 @@ EOD;
                                   'movie_year'          => array('text'=>'Sök på år',            'url'         =>'movie_year.php',	      'title' => 'Sök på år'),
                                   'movie_genre'         => array('text'=>'Sök på genre',         'url'         =>'movie_genre.php',       'title' => 'Sök på genre'),
                                   'movie_page'          => array('text'=>'Paginering',           'url'         =>'movie_page.php',        'title' => 'Paginering'),
-                                  'movie_showall'        => array('text'=>'Visa alla filmer',     'url'         =>'movie_showall.php',     'title' => 'Visa alla filmer'),
+                                  'movie_showall'        => array('text'=>'Visa alla filmer',     'url'        =>'movie_showall.php',     'title' => 'Visa alla filmer'),
                              ))),
     'login'               => array('text'=>'Logga in',             'url'         =>'login.php',             'title' => 'Användare'),
     'edenpress'           => array('text'=>'Edenpress',            'url'         =>'edenpress_content.php', 'title' => 'Edenpress'),
