@@ -55,6 +55,11 @@ ul {
 	line-height: 1.5em;
 }
 
+pre {
+	font-family: monospace;
+}
+
+
 /* IMAGES
 ------------------------------------------------------------------------------*/
 img {
@@ -145,10 +150,9 @@ http://ryanfait.com/
 html, body {
 	height: 100%;
 }
-div#wrapper {
+#wrapper {
 	min-height: 100%;
 	height: auto !important;
-	
 	height: 100%;
 	margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */
 }
@@ -317,4 +321,13 @@ ul.horizontal>li {
 nav.pagenav {
 text-align: center;
 
+}
+
+.debug {
+	font-size: smaller;
+	color: #aaa;
+}
+
+.blogheader {
+	padding: 10px 0;
 }

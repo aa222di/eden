@@ -20,7 +20,7 @@ $eden['main'] = <<<EOD
 <div class="grid">
 	<h2>{$c['title']}</h2>
 	<section class="grid-2-3">
-		<article class="box">
+		<article>
 			{$c['data']}
 		</article>
 	</section>

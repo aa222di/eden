@@ -65,12 +65,12 @@ class CDatabase {
    * @return string with html.
    */
   public function Dump() {
-    $html  = '<p><i>You have made ' . self::$numQueries . ' database queries.</i></p><pre>';
+    $html  = '<section class="debug"><p><i>You have made ' . self::$numQueries . ' database queries.</i></p><pre>';
     foreach(self::$queries as $key => $val) {
       $params = empty(self::$params[$key]) ? null : htmlentities(print_r(self::$params[$key], 1), null, 'UTF-8') . '<br/><br/>';
       $html .= htmlentities($val, null, 'UTF-8') . '<br/><br/>' . "Params: $params";
     }
-    return $html . '</pre>';
+    return $html . '</pre></section>';
   }
 
 

@@ -9,7 +9,7 @@ include(__DIR__.'/config.php');
 $content = new CContent($eden['database']['edenpress'], 'Content');
 
 // Restore the database to its original settings
-$reset = '<hr><p><a href="?reset">Återskapa databasen</a></p><hr>';
+$reset = '<a class="smallbutton" href="?reset">Återskapa databasen</a>';
 $sql      = 'content.sql';             
 //$mysql    = '/usr/bin/mysql';         
 //$host     = 'blu-ray.student.bth.se';
@@ -32,7 +32,8 @@ else {
 }
 
 $html = $content->ShowAllContent();
-$debug = $content->Dump();
+$debug = '<hr>' . $content->Dump();
+//$session = print_r($_SESSION['user']);
 // Do it and store it all in variables in the Eden container.
 $eden['title'] = "Edenpress";
  

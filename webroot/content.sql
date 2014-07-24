@@ -1,4 +1,7 @@
 USE edenpress;
+
+Drop view if exists VContent;
+DROP TABLE IF EXISTS User2Content;
 --
 -- Create table for Content
 --
@@ -31,3 +34,50 @@ INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created) V
   ('blogpost-2', NULL, 'post', 'Nu har sommaren kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost.", 'nl2br', NOW(), NOW()),
   ('blogpost-3', NULL, 'post', 'Nu har hösten kommit', "Detta är en bloggpost som berättar att sommaren har kommit, ett budskap som kräver en bloggpost", 'nl2br', NOW(), NOW())
 ;
+
+DROP TABLE IF EXISTS USER;
+CREATE TABLE `USER` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acronym` char(12) NOT NULL,
+  `name` varchar(80) DEFAULT NULL,
+  `password` char(32) DEFAULT NULL,
+  `salt` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `acronym` (`acronym`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO USER (acronym, name, salt) VALUES 
+  ('amanda', 'Amanda Åberg', unix_timestamp()),
+  ('mos', 'mos', unix_timestamp())
+;
+ 
+UPDATE USER SET password = md5(concat('amanda', salt)) WHERE acronym = 'amanda';
+UPDATE USER SET password = md5(concat('mos', salt)) WHERE acronym = 'mos';
+
+CREATE TABLE `User2Content` (
+  `idUser` int(11) NOT NULL,
+  `idContent` int(11) NOT NULL,
+  PRIMARY KEY (`idUser`,`idContent`),
+  KEY `idContent` (`idContent`),
+  CONSTRAINT `user2content_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`id`),
+  CONSTRAINT `user2content_ibfk_2` FOREIGN KEY (`idContent`) REFERENCES `Content` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `User2Content`
+(`idUser`,
+`idContent`)
+VALUES
+(5, 1),
+(5, 2),
+(6, 3),
+(5, 4),
+(6, 5)
+;
+
+
+Create view VContent AS
+Select C.*, U.name AS user, U.id as Uid FROM Content C 
+left join User2Content U2C on U2C.idContent = C.id
+left join USER U on U2C.idUser = U.id
+group by C.id;
+

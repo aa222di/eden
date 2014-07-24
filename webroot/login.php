@@ -6,8 +6,8 @@
 // Include the essential config-file which also creates the $eden variable with its defaults.
 
 include(__DIR__.'/config.php'); 
-$table = 'User';
-$CUser = new CUser( $eden['database'], $table ); 
+$table = 'USER';
+$CUser = new CUser( $eden['database']['edenpress'], $table ); 
 
 // Build Form
 

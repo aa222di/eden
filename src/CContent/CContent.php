@@ -33,9 +33,10 @@ class CContent extends CDatabase {
 	 *
 	 */
 public function createTable() {
-	$sql = '
-DROP TABLE IF EXISTS ' . $this->table . ';
-CREATE TABLE ' . $this->table . '
+	$sql = "
+DROP TABLE IF EXISTS User2Content;	
+DROP TABLE IF EXISTS Content;
+CREATE TABLE 'Content'
 (
   id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   slug CHAR(80) UNIQUE,
@@ -51,7 +52,38 @@ CREATE TABLE ' . $this->table . '
   updated DATETIME,
   deleted DATETIME
  
-) ENGINE INNODB CHARACTER SET utf8;';
+) ENGINE INNODB CHARACTER SET utf8;
+
+
+CREATE TABLE `User2Content` (
+  `idUser` int(11) NOT NULL,
+  `idContent` int(11) NOT NULL,
+  PRIMARY KEY (`idUser`,`idContent`),
+  KEY `idContent` (`idContent`),
+  CONSTRAINT `user2content_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`id`),
+  CONSTRAINT `user2content_ibfk_2` FOREIGN KEY (`idContent`) REFERENCES `Content` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS USER;
+CREATE TABLE `USER` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acronym` char(12) NOT NULL,
+  `name` varchar(80) DEFAULT NULL,
+  `password` char(32) DEFAULT NULL,
+  `salt` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `acronym` (`acronym`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO USER (acronym, name, salt) VALUES 
+  ('amanda', 'Amanda Åberg', unix_timestamp()),
+  ('mos', 'mos', unix_timestamp())
+;
+ 
+UPDATE USER SET password = md5(concat('amanda', salt)) WHERE acronym = 'amanda';
+UPDATE USER SET password = md5(concat('mos', salt)) WHERE acronym = 'mos';
+ 
+";
 
 $this->ExecuteQuery($sql, array());
 
@@ -81,12 +113,12 @@ public function showAllContent($published = true, $params = array()) {
 	$html = "<h2>Innehåll</h2><p>Här visas allt innehåll i Edenpress</p><ul>";
 
 	foreach ($res as $key => $value) {
-		$editLink = isset($_SESSION['user']) ? "<a href='edenpress_edit.php?id={$value->id}'>editera</a>" : null;
-		$deleteLink = isset($_SESSION['user']) ? "<a href='?delete&id={$value->id}'>radera</a>" : null;
-		$html .= "<li>{$value->TYPE} - <a href='" . $this->getUrlToContent($value) . "'' title ='{$value->title}'>{$value->title}</a> - (" . (!$value->available ? "inte " : null) . "publicerad) - {$editLink} - {$deleteLink}</li>\n";
+		$editLink = isset($_SESSION['user']) ? "<a href='edenpress_edit.php?id={$value->id}'> - editera</a>" : null;
+		$deleteLink = isset($_SESSION['user']) ? "<a href='?delete&id={$value->id}'> - radera</a>" : null;
+		$html .= "<li>{$value->TYPE} - <a href='" . $this->getUrlToContent($value) . "'' title ='{$value->title}'>{$value->title}</a> skriven av {$value->user} (" . (!$value->available ? "inte " : null) . "publicerad) {$editLink} {$deleteLink}</li>\n";
 	}
 	$html .= "</ul>";
-	$createLink = isset($_SESSION['user']) ? '<p><a href="edenpress_create.php" title="Skapa nytt innehåll">Skapa nytt innehåll</a></p>' : null;
+	$createLink = isset($_SESSION['user']) ? '<a href="edenpress_create.php" title="Skapa nytt innehåll" class="smallbutton">Skapa nytt innehåll</a>' : null;
 	$html .= $createLink;
 	}
 
@@ -110,9 +142,16 @@ public function deleteContent($id) {
 		$output = $this->confirmDelete($id);
 	}
 	elseif($confirm) {
-	$sql = "DELETE FROM Content WHERE id = ? LIMIT 1;";
-	$res = $this->ExecuteQuery($sql, array($id,));
-	$output = ($this->RowCount() == 1) ? "1 rad raderades från databasen": null;
+
+		$output = null;
+
+	  $sql = 'DELETE FROM User2Content WHERE idContent= ?';
+	  $this->ExecuteQuery($sql, array($id));
+	  $output = $this->SaveDebug("Det raderades " . $this->RowCount() . " rader från databasen: User2Content.");
+	 
+	  $sql = 'DELETE FROM Content WHERE id = ? LIMIT 1';
+	  $this->ExecuteQuery($sql, array($id));
+	  $output .= $this->SaveDebug(" Det raderades " . $this->RowCount() . " rader från databasen: Content.");
 	}
 
 	return $output;
@@ -136,7 +175,7 @@ public function updateContent($id) {
 		// Get parameters 
 		$id     = isset($_POST['id'])    ? strip_tags($_POST['id']) : (isset($_GET['id']) ? strip_tags($_GET['id']) : null);
 		$title  = isset($_POST['title']) ? $_POST['title'] : null;
-		$slug   = isset($_POST['slug'])  ? $_POST['slug']  : null;
+		$slug   = isset($_POST['slug'])  ? $this->slugify($_POST['slug'])  : null;
 		$url    = isset($_POST['url']) && !empty($_POST['url']) ? strip_tags($_POST['url']) : null;
 		$data   = isset($_POST['data'])  ? $_POST['data'] : array();
 		$type   = isset($_POST['type'])  ? strip_tags($_POST['type']) : array();
@@ -188,7 +227,7 @@ public function updateContent($id) {
 	$url    = isset($slug)   ? $slug : null;
 	$type   = isset($_POST['type'])  ? strip_tags($_POST['type']) : array();
 	$filter = isset($_POST['filter']) ? $_POST['filter'] : 'nl2br';
-	$user = isset($_SESSION['user']) ? $_SESSION['user']->name : null;
+	$user = isset($_SESSION['user']) ? $_SESSION['user']->id : null;
 
 
 	// Check that incoming parameters are valid
@@ -197,19 +236,28 @@ public function updateContent($id) {
 	// Check if form was submitted
 	$output = null;
 
-	  $sql = '
-	    INSERT INTO  ' . $this->table . ' 
+	  $sql = "
+	    INSERT INTO Content
 	    (slug, url, TYPE, title, FILTER, published, created) 
-	    VALUES (?, ?, ?, ?, ?, NOW(), NOW());';
+	    VALUES (?, ?, ?, ?, ?, NOW(), NOW());";
 
 	  $url = empty($url) ? null : $url;
 	  $params = array($slug, $url, $type, $title, $filter,);
 	  $res = $this->ExecuteQuery($sql, $params);
+	  $idContent = $this->LastInsertId();
+
+	  $sql = "
+	    INSERT INTO User2Content
+	    (idUser, idContent) 
+	    VALUES (?, ?);";
+	  $params = array($user, $idContent);
+	  $this->ExecuteQuery($sql, $params);  
+
 	  if($res) {
-	    header('Location: edenpress_edit.php?id=' . $this->LastInsertId());
+	    header('Location: edenpress_edit.php?id=' . $idContent);
 	  }
 	  else {
-	    $output = 'Informationen sparades EJ.<br><pre>' . print_r($db->ErrorInfo(), 1) . '</pre>';
+	    $output = 'Informationen sparades EJ.<br><pre>' . print_r($this->ErrorInfo(), 1) . '</pre>';
 	  }
 	
 	return $output;
@@ -228,8 +276,8 @@ private function confirmDelete($id) {
 	if($res){
 	$html = <<<EOD
 	<p>Är du säker på att du vill radera {$res[0]->title} ({$res[0]->TYPE} med id: {$res[0]->id})?</p>
-	<a class="button" href="?confirm&delete&id={$res[0]->id}" title="radera">Radera</a>
-	<a class="button" href="?" title="regret">Ångra</a>
+	<a class="smallbutton" href="?confirm&delete&id={$res[0]->id}" title="radera">Radera</a>
+	<a class="smallbutton" href="?" title="regret">Ångra</a>
 EOD;
 	}
 	else {
@@ -268,6 +316,7 @@ public function getContent($published = true, $params) {
 	$id = null;
 	$type = null;
 	$url = null;
+	$slug = null;
 	$parameters = array();
 
 	// Build query
@@ -286,8 +335,16 @@ public function getContent($published = true, $params) {
 		$url = " AND url = ?";
 		$parameters[] = $params['url'];
 	}
-	$where = " WHERE 1" . $id . $type . $url . ";";
-	$sql = $sqlOrig . $onlyPublished . " FROM " . $this->table . $where;
+		if (isset($params['slug'])) {
+		$slug = " AND slug = ?";
+		$parameters[] = $params['slug'];
+	}
+		if (isset($params['user'])) {
+		$user = " AND user = ?";
+		$parameters[] = $params['user'];
+	}
+	$where = " WHERE 1" . $id . $type . $url . $slug . ";";
+	$sql = $sqlOrig . $onlyPublished . " FROM VContent " . $where;
 
 	// Do SELECT from a table
 	$res = $this->ExecuteSelectQueryAndFetchAll($sql, $parameters);
@@ -306,6 +363,7 @@ public function getContent($published = true, $params) {
 
 private function getEditForm($id, $output) {
 	$res = $this->getContent(false, array('id' => $id,));
+
 	if(isset($res[0])) {
 	  $c = $res[0];
 	}
@@ -326,6 +384,7 @@ private function getEditForm($id, $output) {
 
 	$html = <<<EOD
 	<h2>Uppdatera innehåll för {$title}</h2>
+	<p>skriven av {$c->user}</p>
 
 	<form method=post>
 	  <fieldset>
