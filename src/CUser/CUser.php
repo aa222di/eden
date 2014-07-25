@@ -52,10 +52,9 @@ class CUser {
    * @return array with resultset.
    */
   public function logIn($params){
-    // Query the table with the incomming data
-    $sql = "SELECT * FROM {$this->table} WHERE acronym = ? AND password = md5(concat(?, salt))";
-    $res = $this->db->ExecuteSelectQueryAndFetchAll($sql,$params);
+  
     // Check if user was found
+    $res = $this->isAuthenticated($params);
 
     if(isset($res[0])) {
         $_SESSION['user'] = $res[0];
@@ -115,11 +114,14 @@ return $form;
 
   /**
    * Check if user is authenicated
-   * @return boolean
+   * @return array
    */
 
-public function isAuthenticated() {
-  return $this->user;
+public function isAuthenticated($params) {
+  // Query the table with the incomming data
+    $sql = "SELECT * FROM {$this->table} WHERE acronym = ? AND password = md5(concat(?, salt))";
+    $res = $this->db->ExecuteSelectQueryAndFetchAll($sql,$params);
+  return $res;
 }
 
 

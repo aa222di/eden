@@ -48,11 +48,11 @@ CREATE TABLE `USER` (
 
 INSERT INTO USER (acronym, name, salt) VALUES 
   ('amanda', 'Amanda Åberg', unix_timestamp()),
-  ('mos', 'mos', unix_timestamp())
+  ('doe', 'John/Jane Doe', unix_timestamp())
 ;
  
 UPDATE USER SET password = md5(concat('amanda', salt)) WHERE acronym = 'amanda';
-UPDATE USER SET password = md5(concat('mos', salt)) WHERE acronym = 'mos';
+UPDATE USER SET password = md5(concat('doe', salt)) WHERE acronym = 'doe';
 
 CREATE TABLE `User2Content` (
   `idUser` int(11) NOT NULL,

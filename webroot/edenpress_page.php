@@ -6,7 +6,7 @@
 // Include the essential config-file which also creates the $anax variable with its defaults.
 include(__DIR__.'/config.php'); 
  
-$page = new CPage($eden['database']['edenpress'], 'Content');
+$page = new CPage($eden['database']['edenpress']);
 
 // Get parameters
 $url = isset($_GET['url']) ? $_GET['url'] : null;

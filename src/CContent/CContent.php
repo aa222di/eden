@@ -6,9 +6,6 @@
 
 class CContent extends CDatabase {
 
-	//MEMBERS
-
-	private $table = null; // Chosen table to query
 
 	// CONSTRUCTOR
 
@@ -18,9 +15,9 @@ class CContent extends CDatabase {
    * @param array $options containing details for connecting to the database.
    *
    */
-  public function __construct($options, $table) {
+  public function __construct($options) {
   	parent::__construct($options);
-  	$this->table = $table;
+  	
 	}
 
 
@@ -184,7 +181,7 @@ public function updateContent($id) {
 
 
 		 $sql = '
-	    UPDATE ' . $this->table . ' SET
+	    UPDATE Content SET
 	      title   = ?,
 	      slug    = ?,
 	      url     = ?,

@@ -24,10 +24,12 @@ if(isset($_POST['logout'])) {
 $CUser->logOut();
 }
 
+print_r($_SESSION['user']);
 
-$eden['title'] = ($CUser->isAuthenticated()) ? 'Logga ut' : 'Logga in'; 
-$eden['navbar']['items']['login']['text'] = ($CUser->isAuthenticated()) ? 'Logga ut' : 'Logga in'; 
-$eden['navbar']['items']['login']['title'] = ($CUser->isAuthenticated()) ? 'Logga ut' : 'Logga in'; 
+
+$eden['title'] = (isset($_SESSION['user'])) ? 'Logga ut' : 'Logga in'; 
+$eden['navbar']['items']['login']['text'] = (isset($_SESSION['user'])) ? 'Logga ut' : 'Logga in'; 
+$eden['navbar']['items']['login']['title'] = (isset($_SESSION['user'])) ? 'Logga ut' : 'Logga in'; 
 $eden['main'] = $form;
  
 

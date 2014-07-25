@@ -6,7 +6,7 @@
 // Include the essential config-file which also creates the $anax variable with its defaults.
 include(__DIR__.'/config.php'); 
  
-$content = new CContent($eden['database']['edenpress'], 'Content');
+$content = new CContent($eden['database']['edenpress']);
 
 // Restore the database to its original settings
 $reset = '<a class="smallbutton" href="?reset">Återskapa databasen</a>';

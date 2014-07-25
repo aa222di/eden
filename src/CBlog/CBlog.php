@@ -9,8 +9,8 @@ class CBlog extends CContent {
    * Constructor creating the filter object 
    *
    */
-  public function __construct($options, $table) {
-  	parent::__construct($options, $table);
+  public function __construct($options) {
+  	parent::__construct($options);
   	$this->filter = new CTextFilter();
 	}
 
