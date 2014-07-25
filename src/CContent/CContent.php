@@ -6,6 +6,8 @@
 
 class CContent extends CDatabase {
 
+	// MEMBERS
+	private $user;
 
 	// CONSTRUCTOR
 
@@ -17,6 +19,8 @@ class CContent extends CDatabase {
    */
   public function __construct($options) {
   	parent::__construct($options);
+  	$this->user = new CUser($options, 'USER');
+
   	
 	}
 
@@ -224,7 +228,7 @@ public function updateContent($id) {
 	$url    = isset($slug)   ? $slug : null;
 	$type   = isset($_POST['type'])  ? strip_tags($_POST['type']) : array();
 	$filter = isset($_POST['filter']) ? $_POST['filter'] : 'nl2br';
-	$user = isset($_SESSION['user']) ? $_SESSION['user']->id : null;
+	$user   = isset($_SESSION['user']) ? $_SESSION['user']->id : null;
 
 
 	// Check that incoming parameters are valid
@@ -243,12 +247,8 @@ public function updateContent($id) {
 	  $res = $this->ExecuteQuery($sql, $params);
 	  $idContent = $this->LastInsertId();
 
-	  $sql = "
-	    INSERT INTO User2Content
-	    (idUser, idContent) 
-	    VALUES (?, ?);";
-	  $params = array($user, $idContent);
-	  $this->ExecuteQuery($sql, $params);  
+	  $this->user->User2Content($idContent);
+	
 
 	  if($res) {
 	    header('Location: edenpress_edit.php?id=' . $idContent);
@@ -396,7 +396,6 @@ private function getEditForm($id, $output) {
 	  <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
 	  <p><label>Publiceringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
 	  <p class=buttons><input type='submit' name='save' value='Spara'/></p>
-	  <p><a href='view.php'>Visa alla</a></p>
 	  <output></output>
 	  </fieldset>
 	</form>

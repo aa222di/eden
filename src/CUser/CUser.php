@@ -14,6 +14,9 @@ class CUser {
   private $db; // Contection to the database
   private $table; // Table with user data
   private $user; // boolean to check if user is registered
+  private $userId;
+  private $userName;
+  private $userAcronym;
  
   
   
@@ -33,6 +36,10 @@ class CUser {
 
     if (isset($_SESSION['user'])) {
       $this->user = true;
+      $this->userId = $_SESSION['user']->id; 
+      $this->userName = $_SESSION['user']->name;
+      $this->userAcronym = $_SESSION['user']->acronym;
+
     } else {
       $this->user = false;
     }
@@ -57,8 +64,11 @@ class CUser {
     $res = $this->isAuthenticated($params);
 
     if(isset($res[0])) {
-        $_SESSION['user'] = $res[0];
-        $this->user = true;
+      $_SESSION['user'] = $res[0];
+      $this->userId = $_SESSION['user']->id; 
+      $this->userName = $_SESSION['user']->name;
+      $this->userAcronym = $_SESSION['user']->acronym;
+      $this->user = true;
     }
     else {
         $this->user = false;
@@ -117,11 +127,21 @@ return $form;
    * @return array
    */
 
-public function isAuthenticated($params) {
+private function isAuthenticated($params) {
   // Query the table with the incomming data
-    $sql = "SELECT * FROM {$this->table} WHERE acronym = ? AND password = md5(concat(?, salt))";
+    $sql = "SELECT acronym, name, id FROM {$this->table} WHERE acronym = ? AND password = md5(concat(?, salt))";
     $res = $this->db->ExecuteSelectQueryAndFetchAll($sql,$params);
   return $res;
+}
+
+public function User2Content($id) {
+    $sql = "
+      INSERT INTO User2Content
+      (idUser, idContent) 
+      VALUES (?, ?);";
+    $params = array($this->userId, $id);
+    $this->db->ExecuteQuery($sql, $params);  
+
 }
 
 

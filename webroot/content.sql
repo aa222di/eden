@@ -1,7 +1,9 @@
 USE edenpress;
 
 Drop view if exists VContent;
+Drop view if exists VCategories;
 DROP TABLE IF EXISTS User2Content;
+Drop table if exists Cat2Content;
 --
 -- Create table for Content
 --
@@ -81,3 +83,51 @@ left join User2Content U2C on U2C.idContent = C.id
 left join USER U on U2C.idUser = U.id
 group by C.id;
 
+Drop table if exists Categories;
+Create table Categories
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  name CHAR(20) NOT NULL 
+) ENGINE INNODB CHARACTER SET utf8;
+
+Insert into Categories (name) values
+('personligt'), ('webbutveckling'), ('nyheter'), ('css'), ('php')
+;
+
+Create table Cat2Content
+(
+  idCat INT(11) NOT NULL,
+  idContent INT(11) NOT NULL,
+  Primary Key (idCat, idContent),
+
+  FOREIGN KEY (idCat) REFERENCES Categories (id),
+  FOREIGN KEY (idContent) REFERENCES Content (id)
+
+) ENGINE INNODB CHARACTER SET utf8;
+
+Insert into Cat2Content (idCat, idContent) values
+(1, 1),
+(1, 2),
+(2, 3),
+(5, 3),
+(4, 4),
+(2, 1),
+(2, 4),
+(2, 5),
+(3, 5),
+(1, 5),
+(1, 4)
+;
+
+CREATE VIEW VCategories
+AS
+SELECT 
+  C.*,
+  GROUP_CONCAT(Cat.name) AS categories
+FROM Content AS C
+  LEFT OUTER JOIN Cat2Content AS C2C
+    ON C.id = C2C.idContent
+  LEFT OUTER JOIN Categories AS Cat
+    ON C2C.idCat = Cat.id
+GROUP BY C.id
+;

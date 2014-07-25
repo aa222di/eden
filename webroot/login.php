@@ -24,7 +24,7 @@ if(isset($_POST['logout'])) {
 $CUser->logOut();
 }
 
-print_r($_SESSION['user']);
+//print_r($_SESSION['user']);
 
 
 $eden['title'] = (isset($_SESSION['user'])) ? 'Logga ut' : 'Logga in'; 

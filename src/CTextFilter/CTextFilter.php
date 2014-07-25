@@ -16,10 +16,12 @@ class CTextFilter {
 public function doFilter($text, $filter) {
   // Define all valid filters with their callback function.
   $valid = array(
-    'bbcode'   => 'bbcode2html',
-    'link'     => 'make_clickable',
-    'markdown' => 'markdown',
-    'nl2br'    => 'nl2br',  
+    'bbcode'      => 'bbcode2html',
+    'link'        => 'make_clickable',
+    'markdown'    => 'markdown',
+    'nl2br'       => 'nl2br', 
+    'smartypants' => 'smartyPantsTypographer',
+    'HTMLpurify'  => 'Purify'
   );
 
   // Make an array of the comma separated string $filter
@@ -106,4 +108,33 @@ private function markdown($text) {
   return \Michelf\MarkdownExtra::defaultTransform($text);
 }
 
+/**
+ * Format text according to PHP SmartyPants Typographer.
+ *
+ * @param string $text the text that should be formatted.
+ * @return string as the formatted html-text.
+ */
+function smartyPantsTypographer($text) {
+  require_once(__DIR__ . '/php-smartypants-typographer/smartypants.php');
+  return SmartyPants($text);
 }
+
+  /**
+   * Purify it.
+   *
+   * @param $text string the dirty HTML.
+   * @returns string as the clean HTML.
+   */
+   public function Purify($text) {   
+ 
+      require_once(__DIR__.'/htmlpurifier-4.6.0-standalone/HTMLPurifier.standalone.php');
+      $config = HTMLPurifier_Config::createDefault();
+      $config->set('Cache.DefinitionImpl', null);
+      $instance = new HTMLPurifier($config);
+    
+    return $instance->purify($text);
+  }
+ 
+ 
+}
+
