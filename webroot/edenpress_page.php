@@ -23,6 +23,10 @@ $eden['main'] = <<<EOD
 		<article>
 			{$c['data']}
 		</article>
+		<footer class="pagefooter">
+		<p>Skriven av {$c['user']}</p>
+		<p>Kategori: {$c['categories']}</p>
+		</footer>
 	</section>
 </div>
 $debug

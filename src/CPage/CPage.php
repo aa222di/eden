@@ -17,7 +17,8 @@ class CPage extends CContent {
 public function getPage($url) {
 
 // Get content
-$res = $this->getContent(true, array('type' => 'page', 'url' => $url,));
+$res = $this->Select(array( 'equals'      => array('type' => 'page', 'url' => $url,),
+                            'published'   => true,), 'VComplete');
 
 if(isset($res[0])) {
   $c = $res[0];
@@ -31,7 +32,7 @@ else {
 $title  = htmlentities($c->title, null, 'UTF-8');
 $data   = $this->filter->doFilter(htmlentities($c->DATA, null, 'UTF-8'), $c->FILTER);
 	
-	return array('title' => $title, 'data' => $data,);
+	return array('title' => $title, 'data' => $data, 'user' => $c->user, 'categories' => $c->categories);
 
 }
 

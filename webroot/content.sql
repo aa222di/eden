@@ -1,7 +1,7 @@
 USE edenpress;
 
+Drop view if exists VComplete;
 Drop view if exists VContent;
-Drop view if exists VCategories;
 DROP TABLE IF EXISTS User2Content;
 Drop table if exists Cat2Content;
 --
@@ -119,12 +119,12 @@ Insert into Cat2Content (idCat, idContent) values
 (1, 4)
 ;
 
-CREATE VIEW VCategories
+CREATE VIEW VComplete
 AS
 SELECT 
   C.*,
   GROUP_CONCAT(Cat.name) AS categories
-FROM Content AS C
+FROM VContent AS C
   LEFT OUTER JOIN Cat2Content AS C2C
     ON C.id = C2C.idContent
   LEFT OUTER JOIN Categories AS Cat

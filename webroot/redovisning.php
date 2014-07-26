@@ -15,7 +15,22 @@ $eden['title'] = "Redovisningar";
 $eden['main'] = <<<EOD
 <div class="grid">
 	<section class="grid-2-3">
-		
+
+	<h2 id="kmom05">Kmom05</h2>
+	<div class="box">
+	<p>Kmom05 kändes som ett kursmoment i vilket jag verkligen fick pröva mina vingar. Jag började med att arbeta mig igenom guiden, sedan gjorde jag de uppgifter som krävdes för att klara av
+	kursmomentet. Det gick relativt enkelt att utföra dessa första uppgifter; för det mesta kopierade jag bara över så mycket kod som möjligt från de sidkontroller som skapats i guiden och sedan
+	lade jag in koden i metoder i klasserna. Klassen CContent blev väldigt stor tillslut och känns tyvärr lite rörig nu. Den har hand om allt som gäller CRUD, det finns en metod som raderar innehåll, en som
+	uppdaterar, en som skapar och tillslut en som läser ut innehållet. Därtill finns även ett par metoder som samverkar med ovannämnda. Till exempel kände jag att jag ville ha något slags bekräftlelse på att visst
+	innehåll verkligen skulle raderas och byggde därför metoder confirmDelete som endast har som funktion att skapa ett formulär som frågar användaren om posten verkligen ska raderas. Dock kan man tvinga en direkt
+	radering genom att manipulera querysträngen eftersom deleteContent endast tittar om GET['confirm'] är satt eller inte. Detta problem beskriver också ganska väl de funderingar jag haft under detta kursmoment. Hur 
+	kan jag säkra upp min kod på bästa sätt och när är det motiverat att göra så? En annan liknande situation som jag fastnade lite i var att SESSION håller reda på min inloggade användare. Här funderade jag på om det 
+	inte skulle finnas ett sätt att lägga över den kontrollen i klassen?</p>
+
+	<p>
+	</div>
+	<hr>
+
 		<h2 id="kmom04">Kmom04</h2>
 	<div class="box">
 		<p>Under detta kursmomentet har det förekommit mycket nytt för mig. Ett par nya funktioner i php så som array_merge och array_merge_recursive. Även mina kunskaper om
@@ -164,7 +179,7 @@ $eden['main'] = <<<EOD
 		<li><a href="#kmom02" title="Kmom02">Kmom02</a></li>
 		<li><a href="#kmom03" title="Kmom03">Kmom03</a></li>
 		<li><a href="#kmom04" title="Kmom04">Kmom04</a></li>
-		<li>Kmom05</li>
+		<li><a href="#kmom05" title="Kmom04">Kmom05</a></li>
 		<li>Kmom06</li>
 		<li>Kmom07</li>
 	</ul>

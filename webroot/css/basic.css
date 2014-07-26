@@ -235,7 +235,7 @@ input{
 	
 }
 
-input[type=text] {
+.edit input[type=text] {
 	width: 100%;
 	}
 
@@ -348,6 +348,34 @@ text-align: center;
 	color: #aaa;
 }
 
+/* PAGE AND BLOG
+------------------------------------------------------------------------------*/
+
 .blogheader {
 	padding: 10px 0;
 }
+
+.pagefooter {
+	border: 1px dotted #aaa;
+	border-width: 1px 0 0 0;
+	margin-top: 10px;
+	padding: 10px 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

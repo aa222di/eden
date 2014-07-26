@@ -17,10 +17,12 @@ class CBlog extends CContent {
 
 public function getPosts($slug) {
 	if($slug){
-	$res = $this->getContent(true, array('type' => 'post', 'slug' => $slug,));
+	$res = $this->Select(array('equals'		=> array('type' => 'post', 'slug' => $slug,),
+								'published'	=> true,), 'VComplete');
 	}
 	else {
-	$res = $this->getContent(true, array('type' => 'post',));
+	$res = $this->Select(array('equals'		=> array('type' => 'post',),
+							   'published'	=> true,), 'VComplete');
 	}
 
 	$html = null;
@@ -56,6 +58,10 @@ EOD;
 		  </header>
 		  {$data}
 		  </article>
+		  <footer class="pagefooter">
+			<p>Skriven av {$c->user} ({$c->created})</p>
+			<p>Kategori: {$c->categories}</p>
+		</footer>
 		</section>
 	
 EOD;

@@ -24,9 +24,6 @@ class CContent extends CDatabase {
   	
 	}
 
-
-
-
 	// METHODS
 
 	/**
@@ -34,10 +31,18 @@ class CContent extends CDatabase {
 	 *
 	 */
 public function createTable() {
-	$sql = "
-DROP TABLE IF EXISTS User2Content;	
+	$sql = <<<EOD
+USE edenpress;
+
+Drop view if exists VComplete;
+Drop view if exists VContent;
+DROP TABLE IF EXISTS User2Content;
+Drop table if exists Cat2Content;
+--
+-- Create table for Content
+--
 DROP TABLE IF EXISTS Content;
-CREATE TABLE 'Content'
+CREATE TABLE Content
 (
   id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   slug CHAR(80) UNIQUE,
@@ -55,15 +60,12 @@ CREATE TABLE 'Content'
  
 ) ENGINE INNODB CHARACTER SET utf8;
 
+SHOW CHARACTER SET;
+SHOW COLLATION LIKE 'utf8%';
 
-CREATE TABLE `User2Content` (
-  `idUser` int(11) NOT NULL,
-  `idContent` int(11) NOT NULL,
-  PRIMARY KEY (`idUser`,`idContent`),
-  KEY `idContent` (`idContent`),
-  CONSTRAINT `user2content_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`id`),
-  CONSTRAINT `user2content_ibfk_2` FOREIGN KEY (`idContent`) REFERENCES `Content` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO Content (slug, url, TYPE, title, DATA, FILTER, published, created) VALUES
+  ('hem', 'hem', 'page', 'Hem', "Detta är min hemsida. Den är skriven i [url=http://en.wikipedia.org/wiki/BBCode]bbcode[/url] vilket innebär att man kan formattera texten till [b]bold[/b] och [i]kursiv stil[/i] samt hantera länkar.\n\nDessutom finns ett filter 'nl2br' som lägger in <br>-element istället för \\n, det är smidigt, man kan skriva texten precis som man tänker sig att den skall visas, med radbrytningar.", 'bbcode,nl2br', NOW(), NOW())
+  ;
 
 DROP TABLE IF EXISTS USER;
 CREATE TABLE `USER` (
@@ -78,13 +80,76 @@ CREATE TABLE `USER` (
 
 INSERT INTO USER (acronym, name, salt) VALUES 
   ('amanda', 'Amanda Åberg', unix_timestamp()),
-  ('mos', 'mos', unix_timestamp())
+  ('doe', 'John/Jane Doe', unix_timestamp())
 ;
  
 UPDATE USER SET password = md5(concat('amanda', salt)) WHERE acronym = 'amanda';
-UPDATE USER SET password = md5(concat('mos', salt)) WHERE acronym = 'mos';
+UPDATE USER SET password = md5(concat('doe', salt)) WHERE acronym = 'doe';
+
+CREATE TABLE `User2Content` (
+  `idUser` int(11) NOT NULL,
+  `idContent` int(11) NOT NULL,
+  PRIMARY KEY (`idUser`,`idContent`),
+  KEY `idContent` (`idContent`),
+  CONSTRAINT `user2content_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`id`),
+  CONSTRAINT `user2content_ibfk_2` FOREIGN KEY (`idContent`) REFERENCES `Content` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `User2Content`
+(`idUser`,
+`idContent`)
+VALUES
+(5, 1)
+;
+
+
+Create view VContent AS
+Select C.*, U.name AS user, U.id as Uid FROM Content C 
+left join User2Content U2C on U2C.idContent = C.id
+left join USER U on U2C.idUser = U.id
+group by C.id;
+
+Drop table if exists Categories;
+Create table Categories
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  name CHAR(20) NOT NULL 
+) ENGINE INNODB CHARACTER SET utf8;
+
+Insert into Categories (name) values
+('personligt'), ('webbutveckling'), ('nyheter'), ('css'), ('php')
+;
+
+Create table Cat2Content
+(
+  idCat INT(11) NOT NULL,
+  idContent INT(11) NOT NULL,
+  Primary Key (idCat, idContent),
+
+  FOREIGN KEY (idCat) REFERENCES Categories (id),
+  FOREIGN KEY (idContent) REFERENCES Content (id)
+
+) ENGINE INNODB CHARACTER SET utf8;
+
+Insert into Cat2Content (idCat, idContent) values
+(1, 1)
+;
+
+CREATE VIEW VComplete
+AS
+SELECT 
+  C.*,
+  GROUP_CONCAT(Cat.name) AS categories
+FROM VContent AS C
+  LEFT OUTER JOIN Cat2Content AS C2C
+    ON C.id = C2C.idContent
+  LEFT OUTER JOIN Categories AS Cat
+    ON C2C.idCat = Cat.id
+GROUP BY C.id
+;
+
  
-";
+EOD;
 
 $this->ExecuteQuery($sql, array());
 
@@ -101,10 +166,10 @@ $this->ExecuteQuery($sql, array());
 	 * @return string to display result
 	 *
 	 */
-public function showAllContent($published = true, $params = array()) {
+public function showAllContent($params = array('published' => true,)) {
 	$html = null;
 	// Get content
-	$res = $this->getContent($published, $params);
+	$res = $this->Select($params);
 
 	if (!$res) {
 		$html = "<p>Just nu finns det inget innehåll, vill du <a href='?create'>börja skapa innehåll?</a></p>";
@@ -150,6 +215,10 @@ public function deleteContent($id) {
 	  $this->ExecuteQuery($sql, array($id));
 	  $output = $this->SaveDebug("Det raderades " . $this->RowCount() . " rader från databasen: User2Content.");
 	 
+	  $sql = 'DELETE FROM Cat2Content WHERE idContent= ?';
+	  $this->ExecuteQuery($sql, array($id));
+	  $output = $this->SaveDebug("Det raderades " . $this->RowCount() . " rader från databasen: Cat2Content.");
+	 
 	  $sql = 'DELETE FROM Content WHERE id = ? LIMIT 1';
 	  $this->ExecuteQuery($sql, array($id));
 	  $output .= $this->SaveDebug(" Det raderades " . $this->RowCount() . " rader från databasen: Content.");
@@ -182,8 +251,18 @@ public function updateContent($id) {
 		$type   = isset($_POST['type'])  ? strip_tags($_POST['type']) : array();
 		$filter = isset($_POST['filter']) ? $_POST['filter'] : 'nl2br';
 		$published = isset($_POST['published'])  ? strip_tags($_POST['published']) : array();
+		$categories = isset($_POST['categories']) ? $_POST['categories'] : array();
 
+		$values = array();
+		// Tie content to categories
+		foreach ($categories as $key) {
+			$values[]= '('. $id . ',' . $key . ')';
+		}
+		$VALUES = implode(',', $values);
+		$sql = 'INSERT INTO Cat2Content (idContent, idCat) VALUES ' . $VALUES . ';';
+		$this->ExecuteQuery($sql);
 
+		// Update content
 		 $sql = '
 	    UPDATE Content SET
 	      title   = ?,
@@ -268,7 +347,8 @@ public function updateContent($id) {
 	 *
 	 */
 private function confirmDelete($id) {
-	$res = $this->getContent(true, array('id' => $id,));
+	$res = $this->Select(array( 'equals' 	=> array('id' => $id,),
+									'published' => true,));
 	$html = null;
 	if($res){
 	$html = <<<EOD
@@ -300,54 +380,63 @@ private function getUrlToContent($content) {
 	  }
 	}
 
+
 	/**
-	 * getContent builds query 
-	 * @param published boolean defaults to true
-	 * @param params array, parameters to be included in query
+	 * Select builds query 
+	 * @param params multidimensional array sets conditions for select
+	 * @param table string, table to be queried
 	 * @return array with objects from query
 	 *
 	 */
-public function getContent($published = true, $params) {
-
-	// Parameters
-	$id = null;
-	$type = null;
-	$url = null;
-	$slug = null;
-	$parameters = array();
-
+public function Select($params = array(), $table = 'VContent') {
 	// Build query
 	$sqlOrig = "SELECT *";
-	$onlyPublished = $published ? ", (published <= NOW()) AS available" : null;
+	$onlyPublished = isset($params['published']) ? ", (published <= NOW()) AS available" : null;
 
-		if (isset($params['id'])) {
-		$id = " AND id = ?";
-		$parameters[] = $params['id'];
-	}
-		if (isset($params['type'])) {
-		$type = " AND TYPE = ?";
-		$parameters[] = $params['type'];
-	}
-		if (isset($params['url'])) {
-		$url = " AND url = ?";
-		$parameters[] = $params['url'];
-	}
-		if (isset($params['slug'])) {
-		$slug = " AND slug = ?";
-		$parameters[] = $params['slug'];
-	}
-		if (isset($params['user'])) {
-		$user = " AND user = ?";
-		$parameters[] = $params['user'];
-	}
-	$where = " WHERE 1" . $id . $type . $url . $slug . ";";
-	$sql = $sqlOrig . $onlyPublished . " FROM VContent " . $where;
+	$condition = null;
+	$parameters = array();
+		if (isset($params['equals'])) {
+			foreach ($params['equals'] as $key => $value) {
+				$condition .= " AND " . $key . " = ?";
+				$parameters[] = $value;
+			}
+		}
+		if (isset($params['like'])) {
+			foreach ($params['like'] as $key => $value) {
+				$condition .= " AND " . $key . " LIKE ?";
+				$parameters[] = $value;
+			}
+		}
+	$where = " WHERE 1" . $condition . ";";
+	$sql = $sqlOrig . $onlyPublished . " FROM " . $table . $where;
 
 	// Do SELECT from a table
 	$res = $this->ExecuteSelectQueryAndFetchAll($sql, $parameters);
 
 	return $res;
 
+}
+
+
+
+private function getCategoriesAsCheckboxes($id) {
+	// Get all categories
+	$categories = $this->Select(array(), 'Categories');
+	// Check if content is already tied to some catgories
+	$Cat2Content = $this->Select(array('equals' => array( 'idContent' => $id,)), 'Cat2Content');
+	$chosenCategories = array();
+	foreach ($Cat2Content as $key) {
+		$chosenCategories[] = $key->idCat;
+	}
+
+	$catCheckbox = null;
+	$checked = null;
+	foreach ($categories as $key) {
+		$checked = in_array($key->id, $chosenCategories) ? 'checked' : null;
+		$catCheckbox .= '<input type="checkbox" name="categories[]" value="' . $key->id . '" '. $checked .'> ' . $key->name . '<br>';
+	}
+
+	return $catCheckbox;
 }
 
 	/**
@@ -359,7 +448,10 @@ public function getContent($published = true, $params) {
 	 */
 
 private function getEditForm($id, $output) {
-	$res = $this->getContent(false, array('id' => $id,));
+	// Get categories
+	$categories = $this->getCategoriesAsCheckboxes($id);
+
+	$res = $this->Select(array('equals' => array('id' => $id,),), 'VContent');
 
 	if(isset($res[0])) {
 	  $c = $res[0];
@@ -383,7 +475,7 @@ private function getEditForm($id, $output) {
 	<h2>Uppdatera innehåll för {$title}</h2>
 	<p>skriven av {$c->user}</p>
 
-	<form method=post>
+	<form method=post class="edit">
 	  <fieldset>
 	  <legend>Uppdatera innehåll</legend>
 	  {$output}
@@ -395,8 +487,9 @@ private function getEditForm($id, $output) {
 	  <p><label>Type:<br/><input type='text' name='type' value='{$type}'/></label></p>
 	  <p><label>Filter:<br/><input type='text' name='filter' value='{$filter}'/></label></p>
 	  <p><label>Publiceringsdatum:<br/><input type='text' name='published' value='{$published}'/></label></p>
+	  {$categories}
 	  <p class=buttons><input type='submit' name='save' value='Spara'/></p>
-	  <output></output>
+	  
 	  </fieldset>
 	</form>
 EOD;
