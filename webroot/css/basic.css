@@ -1,48 +1,54 @@
 /* IMPORTED STYLES AND FONTS
 ------------------------------------------------------------------------------*/
 
-@import url(http://fonts.googleapis.com/css?family=Marko+One);
+
 @import	url('reset.css');
+
+
+/* COLORS 
+700108 - dark red
+9d030d - medium red
+
+*/
+
 
 
 /* FONTS
 ------------------------------------------------------------------------------*/
 
 html {
-		font: normal normal 300 17px/1.5em "Arial", sans-serif;	
-		color: #333;
+		font: normal normal 300 17px/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+		color: #5b5b5b;
 	
 }
 
 p {
-		
-		line-height: 1.5em;
+		font: normal normal 300 1.1em/1.5em 'Baskerville','Garamond','Georgia',serif;
 		margin-bottom: 10px;
 		text-align: justify;
 }
 
 h1 {
-		font: normal normal 300 3em/1.5em "Marko One", serif;
-		color: black;
-		
+		font: normal normal 600 1.8em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+		padding: 20px 0 20px 0;
 }
 
 h2 {
-		font: normal normal 600 1.5em/1.5em "Arial", sans-serif;
+		font: italic normal 300 1.2em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
 		
 }
 
 h3 {
-		font: normal normal 300 1.2em/1.5em "Arial", sans-serif;
-		
+		font: normal normal 300 1.1em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+		text-transform: uppercase;
 }
 
 h4 {
-		font: normal normal 600 1.1em/1.5em "Arial", sans-serif;
+		font: normal normal 600 1.2em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
 }
 
 a {
-		color: 				#333;
+		color: #9d030d;
 		text-decoration: 	underline;	
 }
 
@@ -74,16 +80,18 @@ em {
 
 /* IMAGES
 ------------------------------------------------------------------------------*/
+
+
 img {
-		padding-top: 0.5em;
-		max-width: 100%;	
+	max-width: 100%;
 }
 
-figcaption{
-	text-align:center;
-	font-size: 0.75em;
-	font-style: italic;	
+
+figure {
+	padding-bottom: 10px;
+	padding-top: 10px;
 }
+
 
 .thumbnail {
 	max-height: 50px;	
@@ -91,62 +99,140 @@ figcaption{
 }
 
 
-/* HEADER
+/* HEADERS
 ------------------------------------------------------------------------------*/
-header{
-		padding: 40px 0 40px 0;
+
+/* Top nav */
+.top-nav {
+    background-color: #700108;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
-header> h1 {
-		padding-right:20px;
-		width: 16.67%;	
+.top-nav .grid {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.top-nav a {
+	font-size: 0.8em;
+	color: #DDD;
+	text-decoration: none;
+}
+
+.top-nav a:hover {
+	color: #fff;
+	border-bottom: 2px solid #fff;
+}
+
+.top-nav ul {
+	list-style: none;
+}
+
+.top-nav li {
+	display: inline-block;
+	position: relative;
+	min-width: 50px;
+}
+
+.top-nav li>ul {
+    list-style: none outside none;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    padding: 10px 0 0 0;
+    z-index: 1;
+    visibility: hidden;
+    background-color: #700108;
+}
+
+.top-nav li>ul>li {
+	width: 100%;
+	padding: 5px 3px;
+}
+
+/* Main nav */
+.main-nav {
+	background-color: #9d030d;
+	border-bottom: 8px solid #700108;
+	height: 140px;
+	padding-top: 20px;
+}
+
+.logo {
+	max-width: 200px;
 }
 
 /* MENU AND SUBMENU */
 
-nav.mainmenu {
-	border-top: 2px solid #888;	
-	border-bottom: 2px solid #888;	
-	
+.mainmenu {
+	padding-top: 38px;
 }
+
 
 
 nav.mainmenu>ul>li, nav.mainmenu>ul>li>a  {
 		display: inline-block;	
 }
 
-nav.mainmenu>ul>li>a, li > ul >li > a  {
-		padding:20px;
+nav.mainmenu>ul>li{
+	padding: 0 20px;
+}
+
+nav.mainmenu>ul>li>a  {
+		padding:5px 0 2px 0;
 		text-decoration: none;
-		font-family: "Arial", sans-serif;
+		font: 300 1em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+		text-transform: uppercase;
+		color:#DDD;
 		
 }
 
-nav.mainmenu>ul>li>a:first-child  {
-		padding-left: 0;
+nav.mainmenu>ul>li:last-child  {
+		padding-right: 0;
 }
 
-nav.mainmenu>ul>li>a:hover, li > ul >li > a:hover  {
-		color: #999;
-		text-decoration: underline;	
-}
 
-nav.mainmenu li:hover ul {
+nav li:hover ul {
 	visibility: visible;
 }
-.selected>a, .selected-parent>a {
-		font-style: italic;
-		color: red;
+.selected>a, .selected-parent>a, nav.mainmenu>ul>li>a:hover, li > ul >li > a:hover  {
+		border-bottom: 2px solid #fff;
+		color: #fff !important;
 }
 
-li > ul {
-    background: none repeat scroll 0 0 #fff;
-    list-style: none outside none;
-    position: absolute;
-    z-index: 1;
-    margin-left: -20px;
-    visibility: hidden;
+
+/* SEARCH FIELD
+------------------------------------------------------------------------------*/
+
+.search-field {
+    display: inline;
+    float: right;
+    margin: 0;
 }
+
+.search-field input {
+    background-color: transparent;
+    border-color: #DDD;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 0 2px;
+    box-shadow: none;
+    margin: 43px 0 0 40px;
+    width: 140px;
+    padding: 0;
+    color: transparent;
+    font-size: 0.9em;
+    background-image: url('img/search.png');
+    background-repeat: no-repeat;
+    background-position: 121px 5px;
+}
+
+.search-field input:focus {
+	border-color: #FFF;
+	color: #fff;
+	background-image: none; 
+	}
 
 
 /* FOOTER
@@ -161,114 +247,124 @@ http://ryanfait.com/
 
 html, body {
 	height: 100%;
+	background-color: #f3f3f3;
 }
-#wrapper {
+.wrapper {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
 	margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */
 }
-footer, .push {
+.site-footer, .push {
 	height: 100px; /* .push must be the same height as .footer */
-	width: 980px;
+	width: 100%;
+	max-width: 2000px;
+	min-width: 1200px;
 	margin: 0 auto;
 	
 }
 
-footer{
+.site-footer{
 
-	border-top: 4px double #888;
+	border-top: 8px solid #9d030d;
 	padding-top: 20px;
-
+	background-color: #700108; 
+	color: #fafafa;
 }
 
-
-/* CUSTOM BUTTONS
-------------------------------------------------------------------------------*/
-
-a.button {
-	padding: 20px;
-	display: inline-block;
-	background-color: #333;	
-	width: 100%;
-	color: white;
-	text-align: center;
+.site-footer a {
+	color: #fafafa;
 	text-decoration: none;
-	font-variant: small-caps;
 }
 
-a.smallbutton {
-	padding: 5px;
-	display: inline-block;
-	background-color: #333;	
-	color: white;
-	text-align: center;
-	text-decoration: none;
-	margin: 5px 10px 5px 0;
-}
 
-a.button:hover, a.smallbutton:hover {
-	background-color: #888;	
-	cursor: pointer; 
-}
+
 
 /* FORMS
 ------------------------------------------------------------------------------*/
 
+/* login-form */
 
-select.dice{
-    display: block;
-    margin: 20px auto;
-    width: 200px;
-    border: 2px solid #888;	
-    padding: 5px;
-    font-size: 17px;
-}
-
-input{
-	display: inline-block;
-	margin: 5px 0 10px 0;
-	padding: 5px;
-	font-size: 1em;
-	border: 2px solid #888;	
-
+.login-form {
+	width: 250px;
+	margin: 40px auto;
 	
+
 }
 
-.edit input[type=text] {
+.login-form input {
+	margin: 20px auto;
+
+}
+
+.login-form label {
+	padding: 20px 0;
+}
+
+.login-form input[type=submit] {
 	width: 100%;
-	}
-
-input[type=submit] {
-
-	padding: 5px 10px;
-	display: inline-block;
-	background-color: #333;	
-	color: white;
-	text-align: center;
+	margin-top: 40px;
 }
 
-input[type=submit]:hover {
-	background-color: #888;	
-	cursor: pointer; 
+.login-form fieldset {
+	padding: 40px;
+	border: 2px double #d7d7d7;
 }
 
-p#years>input {
-	width:25%;	
+
+/* GENERAL */
+
+legend {
+	text-transform: uppercase;
+
+}
+
+
+ input, textarea, select {
+	display: block;
+	margin: 5px 15px 10px 0;
+	padding: 10px;
+	font-size: 1em;
+	border: 1px solid #d7d7d7;
+	box-shadow: 10px 10px 5px -12px #444 inset;
+	font: normal normal 300 1.1em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+	max-width: 100%;
+	resize: vertical;
 }
 
 label{
-	display: block;
-	
-	
+	float: left;
+	margin: -20px 0;
+	font: normal normal 300 1.1em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+	text-transform: uppercase;
 }
 
-legend {
-	font: normal normal 300 1.2em/1.5em "Arial", sans-serif;
-	border-bottom: 2px solid #888;	
+input[type=submit], .regretbutton {
+	padding: 10px 20px;
+	width: 14.5%;
+	clear: both;
 	display: block;
-	width: 100%;
-	margin-bottom: 20px;
+	margin: 20px 0;
+	background-color: #9d030d;	
+	color: white;
+	text-align: center;
+	font: normal normal 300 1.1em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+	text-transform: uppercase;
+	border: none;
+	box-shadow: 0 3px 0 1px #700108;
+	text-decoration: none;
+}
+
+
+input[type=submit]:hover {
+	background-color: #d9574b;	
+	cursor: pointer; 
+}
+
+input[type=submit]:disabled {
+	background-color: #5b5b5b;
+	box-shadow: 0 3px 0 1px #111;	
+	cursor: not-allowed; 
 }
 
 textarea {
@@ -277,13 +373,14 @@ textarea {
 }
 
 
+
 /* TABLES
 ------------------------------------------------------------------------------*/
 
 	table {
 		border-collapse: collapse;
 		width: 100%;
-		
+		margin-bottom: 20px;
 		
 	}
 	
@@ -292,7 +389,7 @@ textarea {
 		padding: 0.5em;
 		vertical-align: middle;
 		text-align: left;
-		border-bottom: 2px solid #d1d1d1;
+		border-bottom: 1px solid #d7d7d7;
 }
 
 	thead {
@@ -300,29 +397,23 @@ textarea {
 		font-weight: 600;
 	}
 
+
+	tr:hover {
+		background-color: #f9f9f9;
+	}
+
+	td {
+		max-width: 250px;
+	}
+
 /* BORDERS AND PADDING
 ------------------------------------------------------------------------------*/
 
-.border {
-	border: 4px double #333;	
-}
 
-.borderbottom {
-	border-bottom: 2px solid #333;	
-}
-
-section.extrapadding {
-	padding-top: 40px;	
-	
-}
 
 /* MISC. CLASSES
 ------------------------------------------------------------------------------*/
 
-p.underline {
-	text-decoration: underline;
-	font-weight: 600;
-}
 
 ul.horizontal>li {
 	display: inline-block;
@@ -348,34 +439,95 @@ text-align: center;
 	color: #aaa;
 }
 
-/* PAGE AND BLOG
+.grey {
+	background-color: #fafafa;
+	border: 1px solid #d7d7d7;
+	border-width: 1px 0;
+}
+
+.wrong {
+    background-color: #afd6dd;
+    border: 3px solid #71b7c4;
+    padding: 20px;
+    position: relative;
+    top: 87px;
+}
+
+.registerbutton {
+	display: block;
+	width: 250px;
+	margin: 30px auto;
+	text-align: center;
+}
+
+.register-form input {
+    float: left;
+    margin-bottom: 20px;
+    width: 80%;
+}
+
+.success-registration {
+    background-color: #c5e5c5;
+    border: 3px solid #9ed39e;
+    padding: 20px;
+    position: relative;
+    top: 87px;
+}
+
+
+
+/* BREADCRUMB
 ------------------------------------------------------------------------------*/
 
-.blogheader {
-	padding: 10px 0;
+.breadcrumb {
+	padding-bottom: 20px;
 }
 
-.pagefooter {
-	border: 1px dotted #aaa;
-	border-width: 1px 0 0 0;
-	margin-top: 10px;
-	padding: 10px 0;
+.breadcrumb a {
+	text-decoration: none;
+}
+/* Orderby nav and Hits per page nav
+------------------------------------------------------------------------------*/
+
+.orderby, .hits-per-page, .pagenav, .orderby p, .hits-per-page p, .pagenav p{
+	text-transform: uppercase;
+	font-family: 'Gill Sans','Helvetica','Arial',sans-serif;
+
+}
+
+.orderby h3, .hits-per-page h3 {
+	padding: 10px 0 20px 0;
+	}
+
+.orderby a, .hits-per-page a,  .pagenav a {
+	text-decoration: none;
+	color: #5b5b5b;
+}
+
+.orderby a:hover, .hits-per-page a:hover,  .pagenav a:hover {
+	color:#9d030d;
+	font-weight: 600;
+}
+
+.hits-per-page {
+	text-align: right;
+}
+
+.currentChoice {
+	font-weight: 600;
+	color:#9d030d;
+}
+
+/* PROFILE
+------------------------------------------------------------------------------*/
+
+.profile {
+	padding-left: 80px;
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.profile-header h2 {
+    margin-top: -20px;
+    padding-bottom: 20px;
+}

@@ -1,0 +1,83 @@
+/* CALENDAR */
+
+.red {
+	color: #9d030d;
+}
+
+.lighter {
+	color: #b2b2b2;
+}
+
+.calendar {
+	min-width: 100%;
+	height: 340px;
+	margin-right: -20px;
+}
+
+.calendar h3 {
+	font-weight: 600;
+}
+
+.calendar h3, .calendar a {
+	display: inline-block;
+	color: #fff;
+}
+.calendar a {
+	text-decoration: none;
+	position: relative;
+	bottom: 2px;
+	padding:  10px 10px 0 10px;
+	}
+
+.calendar a:hover {
+	font-weight: 600;
+
+}
+
+.calendar header {
+	text-align: center;
+	background-color:#363c65;
+
+}
+
+.calendar table {
+	height: 280px;
+	width: 100%;
+	table-layout: fixed;
+}
+
+.calendar th:last-child{
+	color: #9d030d;
+}
+
+.calendar td {
+	text-align: center;
+	border-right: 1px solid #ddd;
+}
+.calendar td:last-child {
+	border-right: none;
+}
+
+.calendar tr:last-child td{
+	border-bottom: none;
+}
+
+.synopsis {
+    display: inline-block;
+    float: right;
+    padding: 0 40px 0 20px;
+    width: 60%;
+    margin-top: -5px;
+}
+
+.competition-header {
+	padding: 40px 0;
+}
+
+.competition-header h1 {
+	padding: 0;
+}
+
+.movie-of-the-month {
+	border: 1px solid #ddd;
+}

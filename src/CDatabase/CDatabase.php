@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * Database wrapper, provides a database API for the framework but hides details of implementation.
  *
@@ -25,8 +25,8 @@ class CDatabase {
   public function __construct($options) {
     $default = array(
       'dsn' => null,
-      'username' => "Intentionally removed by CSource",
-      'password' => "Intentionally removed by CSource",
+      'username' => null,
+      'password' => null,
       'driver_options' => null,
       'fetch_style' => PDO::FETCH_OBJ,
     );
@@ -190,8 +190,8 @@ class CDatabase {
     * @param string $host the host
     * @return string information about the reset
     */
-      public function ResetDatabase($databaseFile, $mysql, $host) {
-    $cmd = "$mysql -h{$host} -u{$this->options['username']} -p{$this->options['password']} < $databaseFile 2>&1";
+      public function ResetDatabase($reset) {
+    $cmd = "{$reset['mysql']} -h{$reset['host']} -u{$this->options['username']} -p{$this->options['password']} < {$reset['sql']} 2>&1";
     $res = exec($cmd);
     $output = "<p>Databasen är återställd via kommandot<br/><code>{$cmd}</code></p><p>{$res}</p>";
 

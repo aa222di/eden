@@ -3,34 +3,37 @@
  * This is a Eden pagecontroller.
  *
  */
-// Include the essential config-file which also creates the $eden variable with its defaults.
-
+// Include the essential config-file which also creates the $anax variable with its defaults.
 include(__DIR__.'/config.php'); 
-$table = 'USER';
-$CUser = new CUser( $eden['database']['edenpress'], $table ); 
-
-// Build Form
+ 
+$CUser = new CUser($eden['database'], 'userRM');
 
 $form = $CUser->loginForm();
+$output = null; 
 
-//Check if the password and username exist in the table
-
-if(isset($_POST['login'])) {
-$CUser->logIn(array($_POST['user'], $_POST['pswd']));
+if(isset($_POST['submit'])) {
+	
+	$output = $CUser->logIn();
+	
 }
 
-// Logout the user
-if(isset($_POST['logout'])) {
-$CUser->logOut();
+if(isset($_GET['logout'])) {
+	$CUser->logOut();
 }
 
-//print_r($_SESSION['user']);
 
+// Do it and store it all in variables in the Anax container.
+$eden['title'] = "Login";
+ 
 
-$eden['title'] = (isset($_SESSION['user'])) ? 'Logga ut' : 'Logga in'; 
-$eden['navbar']['items']['login']['text'] = (isset($_SESSION['user'])) ? 'Logga ut' : 'Logga in'; 
-$eden['navbar']['items']['login']['title'] = (isset($_SESSION['user'])) ? 'Logga ut' : 'Logga in'; 
-$eden['main'] = $form;
+ 
+$eden['main'] = <<<EOD
+<div class="grid">
+$output
+$form
+<a class='registerbutton' href='register.php' title='register'>Not yet a member? Register now! &rarr;</a>
+</div>
+EOD;
  
 
  

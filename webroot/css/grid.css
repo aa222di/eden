@@ -12,27 +12,31 @@
 }
 
 
-div#wrapper {
-		width:		980px;
+.wrapper {
+		width:		100%;
 		margin:		0 auto;
-		max-width: 1350px;
+		max-width: 2000px;
+		min-width: 1200px;
 		position: relative;
-		
-		
+		background-color: #fff;
+		overflow: hidden; 
+}
+
+.page-content {
+	position: relative;
 }
 
 
-div#content {
-		
-}
 
 
 /* Grid classes 
 -----------------------------------------------------------------*/
 
 .grid{
-		padding: 			20px 0 20px 0;	
+		padding: 			20px 20px;	
 		position:			relative;
+		width: 				1024px;
+		margin: 			0 auto;
 		
 }
 
@@ -51,7 +55,7 @@ div#content {
 
 
 [class*='grid-']:last-child{
-		padding-right: 0;
+		margin-right: -20px;
 }
 
 
@@ -75,4 +79,7 @@ div#content {
 		width: 50%;	
 }
 
+.grid-1-4 {
+		width: 25%;	
+}
 

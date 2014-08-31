@@ -1,0 +1,28 @@
+.logotype{
+	padding-top: 30px;
+}
+
+/* USERS */
+
+.userPortrait {
+	width: 25%;
+	display: block;
+	padding: 40px;
+	float: left;
+	text-decoration: none;
+}
+
+figcaption p {
+	text-align: center;
+	font: normal normal 300 1em/1.5em 'Gill Sans','Helvetica','Arial',sans-serif;
+	margin-bottom: 0;
+}
+
+.userauthority {
+	color: #969696;
+	font-size: 0.9em;
+}
+
+.about-us {
+	padding-bottom: 40px;
+}

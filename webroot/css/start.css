@@ -1,0 +1,75 @@
+.biglogo{
+   left: 10%;
+    margin-bottom: -461px;
+    position: absolute;
+    right: 10%;
+    top: 4%;
+    width: 70%;
+    bottom: 15%;
+
+}
+
+.biglogo h2{
+	color: #fff;
+	margin: 0 auto;
+	max-width: 80%;
+	font-size: 1.8em;
+	text-shadow: 0 0 4px #000;
+}
+
+.biglogo img {
+	max-width: 80%;
+	margin: 0 auto;
+	display: block;
+}
+
+.registerbutton {
+    background-color: #9d030d;
+    color: #fff;
+    padding: 20px;
+    text-decoration: none;
+    box-shadow: 0 3px 0 1px #700108;
+    text-transform: uppercase;
+}
+
+.registerbutton:hover {
+	background-color: #d9574b;	
+	cursor: pointer; 
+}
+
+.excerpt {
+	width: 30%;
+	padding: 20px;
+	float: left;
+	background-color: #fff;
+	margin-right: 40px;
+	border: 1px solid #ddd;
+	margin-bottom: 40px;
+}
+
+.excerpt p {
+	font-size: 1em;
+}
+
+.excerpt:last-of-type{
+	margin: 0;
+	}
+
+.blogheader h1 {
+	font-size: 1.2em;
+}
+
+.blogheader h1 a {
+	text-decoration: none;
+	}
+
+.blogheader h2 {
+	font-size: 1.2em;
+	position: absolute;
+	top: 0;
+	color: transparent;
+}
+
+.blogheader {
+	position: relative;
+}

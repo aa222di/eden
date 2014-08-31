@@ -11,4 +11,10 @@ extract($eden);
 include(__DIR__ . '/functions.php');
  
 // Include the template file.
+if(isset($_SESSION['admininterface'])) {
+	include(__DIR__ . '/admin.tpl.php');
+}
+
+else {
 include(__DIR__ . '/index.tpl.php');
+}

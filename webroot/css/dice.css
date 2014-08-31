@@ -4,7 +4,7 @@
  */
 ul.dice {
   margin: 0;
-  padding: 0;
+  padding: 20px 0 0 0 ;
   list-style: none;
   
 }
@@ -18,11 +18,39 @@ ul.dice li {
   background: url(img/dices.png) no-repeat;
 }
  
-ul.dice li.dice-1 { background-position: 0px 0px;  } 
-ul.dice li.dice-2 { background-position: 0px -122px;  } 
-ul.dice li.dice-3 { background-position: 0px -244px;  } 
-ul.dice li.dice-4 { background-position: 0px -366px;  } 
-ul.dice li.dice-5 { background-position: 0px -488px;  } 
-ul.dice li.dice-6 { background-position: 0px -610px;  } 
+ul.dice li.dice-1 { background-position: 0 0;  } 
+ul.dice li.dice-2 { background-position: 0 -122px;  } 
+ul.dice li.dice-3 { background-position: 0 -244px;  } 
+ul.dice li.dice-4 { background-position: 0 -366px;  } 
+ul.dice li.dice-5 { background-position: 0 -488px;  } 
+ul.dice li.dice-6 { background-position: 0 -610px;  } 
 
+/* GAMEBOARD */
 
+.dicegame input {
+	width: 250px;
+	float: left;
+	clear: none;
+	margin-right: 20px;
+	background-color: #363C65;
+	box-shadow: 0 3px 0 1px #191d33;
+} 
+
+.dicegame input:hover {
+	background-color: #525987;
+}
+.dicegame input:last-child {
+	margin-right: 0;
+} 
+.dicegame {
+	width: 790px;
+	display: block;
+	margin: 0 auto;
+}
+
+.regretbutton {
+	width: 250px;
+	display: block;
+	margin: 40px auto;
+
+}

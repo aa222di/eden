@@ -5,8 +5,7 @@ class CDice {
 	
 	
 	// Property declaration
-	protected 	$rolls = array();
-	private		$last;
+	protected	$last;
 	private		$RoundSum;
 	
 	// Constructor
@@ -62,7 +61,18 @@ class CDice {
 		$this->RoundSum = 0;
 	}
     
+  /**
+   * Get the rolls as a serie of images.
+   *
+   */
+  public function GetDiceImage() {
+    $html = "<ul class='dice'>";
+   
+      $html .= "<li class='dice-{$this->last}'></li>";
     
+    $html .= "</ul>";
+    return $html;
+  }
 
 	//Destructor
 	public function __destruct() {
